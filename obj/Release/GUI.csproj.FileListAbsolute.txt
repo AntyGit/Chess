@@ -1,0 +1,15 @@
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Release\GUI.exe.config
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Release\Assets\chess-pieces.png
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Release\GUI.exe
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Release\GUI.pdb
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\View\MainWindow.baml
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\View\MainWindow.g.cs
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\App.g.cs
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI_Content.g.cs
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI_MarkupCompile.cache
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI.g.resources
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI.Properties.Resources.resources
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI.csproj.GenerateResource.Cache
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI.exe
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI.pdb
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Release\GUI.csprojResolveAssemblyReference.cache

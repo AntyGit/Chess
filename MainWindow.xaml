@@ -1,8 +1,9 @@
-﻿<Window x:Class="GUI.MainWindow"
+﻿<Window x:Class="Chess.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Width="800" Height="600">
+    
     <Grid Name="grid" Background="Black">
-        <UniformGrid Name="tile_grid" Rows="8" Columns="8"></UniformGrid>
+        <UniformGrid Name="tile_grid" Rows="8" Columns="8" Margin="15"></UniformGrid>
     </Grid>
 </Window>

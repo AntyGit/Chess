@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GUI
+namespace Chess
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,16 +24,18 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new EntityViewModel();
+            //this.DataContext = new ChessGameEngine();
+          
             SetupBoard();
         }
         
+        //WIP: TO BE REMOVED
         private void SetupBoard()
         {
             
             //multidimensional array in C# unlike Rectangle[][] which is an array of arrays;
             //Rectangle[,] tiles = new Rectangle[tile_grid.Rows, tile_grid.Columns];
-            tile_grid.Margin = new Thickness(15);
+            //tile_grid.Margin = new Thickness(15);
             for(int i = 0; i<tile_grid.Rows; ++i)
             {
                 for(int j = 0 ; j<tile_grid.Columns; ++j)

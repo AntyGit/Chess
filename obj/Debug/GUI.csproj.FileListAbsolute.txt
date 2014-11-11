@@ -2,8 +2,6 @@ c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Debug\GUI.exe.co
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Debug\GUI.exe
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Debug\GUI.pdb
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI.csprojResolveAssemblyReference.cache
-c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\MainWindow.baml
-c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\MainWindow.g.cs
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\App.g.cs
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI_MarkupCompile.cache
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI.g.resources
@@ -13,3 +11,5 @@ c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI.exe
 c:\users\gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI.pdb
 C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\bin\Debug\Assets\chess-pieces.png
 C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI_Content.g.cs
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\MainWindow.baml
+C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\MainWindow.g.cs
