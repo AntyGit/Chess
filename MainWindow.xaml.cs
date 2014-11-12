@@ -21,6 +21,7 @@ namespace Chess
     public partial class MainWindow : Window
     {
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -44,6 +45,7 @@ namespace Chess
                     if((j + i) % 2 == 0)
                     {
                         r.Fill = Brushes.WhiteSmoke;
+                     
                     }
 
                     else 
@@ -54,7 +56,7 @@ namespace Chess
                 }
             }
 
-            Image img = new Image();
+            /*Image img = new Image();
 
             //I need to load the image assets from a local folder(Assets) and so I create a path to that folder. 
             string path = System.IO.Path.Combine(Environment.CurrentDirectory,"Assets","chess-pieces.png");
@@ -65,6 +67,14 @@ namespace Chess
             img.Source = bmp;
             img.Width = 385;
             img.Height = 130;
+            grid.Children.Add(img);*/
+
+            Chess.Model.ChessPiece piece = new Chess.Model.ChessPiece(0,0,"Assets/chess-pieces.png",Model.PlayerType.Human);
+
+            Image img = new Image();
+            img.Source = piece.Texture;
+            img.Width = 64;
+            img.Height = 64;
             grid.Children.Add(img);
             
         }

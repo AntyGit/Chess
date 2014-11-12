@@ -4,6 +4,6 @@
         Title="MainWindow" Width="800" Height="600">
     
     <Grid Name="grid" Background="Black">
-        <UniformGrid Name="tile_grid" Rows="8" Columns="8" Margin="15"></UniformGrid>
+        <UniformGrid Name="tile_grid" Rows="8" Columns="8"/>
     </Grid>
 </Window>
