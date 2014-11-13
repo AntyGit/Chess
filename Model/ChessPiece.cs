@@ -25,7 +25,7 @@ namespace Chess.Model
         public ChessPiece(int x, int y, string filepath, PlayerType player)
         {
             position = new Vec2(x, y);
-            LoadBitmap(filepath);
+            LoadBitmap(filepath,320,64,64,64);
             this.player = player;
         }
 
@@ -47,10 +47,10 @@ namespace Chess.Model
             }
         }
 
-        public void LoadBitmap(string filepath)
+        public void LoadBitmap(string filepath,int x,int y, int width,int height)
         {
             BitmapImage bmp = new BitmapImage(new Uri(filepath, UriKind.Relative));
-            bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(0, 0, 64, 64));
+            bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(x, y, width, height));
         }
 
         //Publish an event (a property changed). This is called by set method of propreties

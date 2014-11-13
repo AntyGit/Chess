@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chess.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,65 +21,43 @@ namespace Chess
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        private ChessGameEngine engine;
 
         public MainWindow()
         {
             InitializeComponent();
-            //this.DataContext = new ChessGameEngine();
-          
-            SetupBoard();
+            engine = new ChessGameEngine();
+            //this.DataContext = engine;
+            DrawBoard();
         }
         
-        //WIP: TO BE REMOVED
-        private void SetupBoard()
+        //WIP: Maybe I should do this in design (xaml).
+        private void DrawBoard()
         {
-            
-            //multidimensional array in C# unlike Rectangle[][] which is an array of arrays;
-            //Rectangle[,] tiles = new Rectangle[tile_grid.Rows, tile_grid.Columns];
-            //tile_grid.Margin = new Thickness(15);
-            for(int i = 0; i<tile_grid.Rows; ++i)
+
+            List<Chess.Model.Square> tiles = engine.Board.Tiles;
+
+            foreach(Chess.Model.Square t in tiles)
             {
-                for(int j = 0 ; j<tile_grid.Columns; ++j)
-                {
-                    Rectangle r = new Rectangle ();
-                    if((j + i) % 2 == 0)
-                    {
-                        r.Fill = Brushes.WhiteSmoke;
-                     
-                    }
-
-                    else 
-                    {
-                        r.Fill = Brushes.SlateGray;
-                    }
-                    tile_grid.Children.Add(r);
-                }
+                Rectangle r = new Rectangle();
+                r.Fill = t.Color;
+                tile_grid.Children.Add(r);
             }
-
-            /*Image img = new Image();
-
-            //I need to load the image assets from a local folder(Assets) and so I create a path to that folder. 
-            string path = System.IO.Path.Combine(Environment.CurrentDirectory,"Assets","chess-pieces.png");
-
-            Uri uri_src = new Uri(path);
-            BitmapImage bmp = new BitmapImage(uri_src);
-            bmp.DecodePixelWidth = 64;
-            img.Source = bmp;
-            img.Width = 385;
-            img.Height = 130;
-            grid.Children.Add(img);*/
-
-            Chess.Model.ChessPiece piece = new Chess.Model.ChessPiece(0,0,"Assets/chess-pieces.png",Model.PlayerType.Human);
+            
+            Chess.Model.ChessPiece piece = new Chess.Model.ChessPiece(0,0,@"Assets/chess-pieces.png",Model.PlayerType.Human);
 
             Image img = new Image();
-            img.Source = piece.Texture;
+            img.Source = piece.Texture;  
             img.Width = 64;
             img.Height = 64;
-            grid.Children.Add(img);
+   
+            tile_grid.Children.Add(img);
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
             
         }
-  
         
     }
 }
