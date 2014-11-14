@@ -9,7 +9,8 @@ namespace Chess.Model
 {
     class ChessBoard
     {
-        private List<Square> tiles; 
+        private Square[,] tiles;
+        private List<ChessPiece> pieces;
         private int rows;
         private int columns;
 
@@ -17,11 +18,11 @@ namespace Chess.Model
         {
             this.rows = 8;
             this.columns = 8;
-            this.tiles = new List<Square>(rows*columns);
+            this.tiles = new Square[rows,columns];
             SetupBoard();
         }
 
-        public List<Square> Tiles
+        public Square[,] Tiles
         {
             get
             {
@@ -32,7 +33,7 @@ namespace Chess.Model
         public void SetupBoard()
         {
             AddTiles();
-            //InitPieces();
+            InitPieces();
             //AddPieces();
         }
 
@@ -55,10 +56,16 @@ namespace Chess.Model
                         color = Brushes.SlateGray;
                     }
 
-                    tiles.Add(new Square(color, ""));
+                    tiles[i,j] = new Square(color,"");
                 }
             }
         }
+
+        private void InitPieces()
+        {
+
+        }
+
 
     }
 }
