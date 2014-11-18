@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 namespace Chess.Model
 {
     public enum PlayerType {Human, AI}
+    public enum PieceType { Pawn,King,Queen,Rook,Knight,Bishop}
 
     //INotify is an interface that is implemented to notify the view model that a property of the model has changed
     public class ChessPiece : INotifyPropertyChanged
@@ -21,11 +22,13 @@ namespace Chess.Model
         private Vec2 position;
         private CroppedBitmap bitmap;
         private PlayerType player;
+        private PieceType type;
 
-        public ChessPiece(int x, int y, string filepath, PlayerType player)
+        public ChessPiece(int x, int y, CroppedBitmap bmp, PieceType type,PlayerType player)
         {
             position = new Vec2(x, y);
             LoadBitmap(filepath,320,64,64,64);
+            this.type = type;
             this.player = player;
         }
 

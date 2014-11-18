@@ -1,6 +1,8 @@
-﻿using Chess.ViewModel;
+﻿using Chess.Model;
+using Chess.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +24,13 @@ namespace Chess
     public partial class MainWindow : Window
     {
         private ChessGameEngine engine;
+        //public ObservableCollection<ChessPiece> pieces;
 
         public MainWindow()
         {
             InitializeComponent();
             engine = new ChessGameEngine();
-            //this.DataContext = engine;
+            this.DataContext = engine;
             DrawBoard();
         }
         
@@ -35,7 +38,7 @@ namespace Chess
         private void DrawBoard()
         {
 
-            List<Chess.Model.Square> tiles = engine.Board.Tiles;
+            Chess.Model.Square[,] tiles = engine.Board.Tiles;
 
             foreach(Chess.Model.Square t in tiles)
             {
@@ -44,19 +47,20 @@ namespace Chess
                 tile_grid.Children.Add(r);
             }
             
-            Chess.Model.ChessPiece piece = new Chess.Model.ChessPiece(0,0,@"Assets/chess-pieces.png",Model.PlayerType.Human);
+            Chess.Model.ChessPiece piece = new Chess.Model.ChessPiece(0,0,@"Assets/chess-pieces.png",Model.PieceType.Pawn,Model.PlayerType.Human);
 
             Image img = new Image();
             img.Source = piece.Texture;  
             img.Width = 64;
             img.Height = 64;
    
-            tile_grid.Children.Add(img);
+            grid.Children.Add(img);
         }
 
+        
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            engine.Board.Reset();
         }
         
     }

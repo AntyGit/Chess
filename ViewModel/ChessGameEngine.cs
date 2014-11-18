@@ -10,7 +10,8 @@ namespace Chess.ViewModel
     // This will be the class that feeds the GUI with information (i.e the data context) 
     class ChessGameEngine
     {
-       private ChessBoard board;
+       private ChessBoard board; 
+       
 
        public ChessGameEngine()
        { 
