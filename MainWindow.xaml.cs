@@ -25,10 +25,12 @@ namespace Chess
     {
         private ChessGameEngine engine;
         //public ObservableCollection<ChessPiece> pieces;
+        private View.AssetHandler assets; 
 
         public MainWindow()
         {
             InitializeComponent();
+            assets = new View.AssetHandler();
             engine = new ChessGameEngine();
             this.DataContext = engine;
             DrawBoard();
@@ -47,17 +49,33 @@ namespace Chess
                 tile_grid.Children.Add(r);
             }
             
-            Chess.Model.ChessPiece piece = new Chess.Model.ChessPiece(0,0,@"Assets/chess-pieces.png",Model.PieceType.Pawn,Model.PlayerType.Human);
+            Chess.Model.ChessPiece piece = new Model.Pawn(0,0,Model.PlayerType.Human);
+            Chess.Model.ChessPiece piece2 = new Model.King(0, 0,Model.PlayerType.AI);
 
-            Image img = new Image();
-            img.Source = piece.Texture;  
-            img.Width = 64;
-            img.Height = 64;
-   
+            Image img = assets.GetImageFor(piece.Type, piece.Player);
+            img.Margin = new Thickness(0, 0, 800,390);
+
             grid.Children.Add(img);
+            
+            //grid.Children.Add(assets.GetImageFor(piece2.Type, piece2.Player));
         }
 
-        
+
+        /*public BitmapImage LoadBitmap(string filepath)
+        {
+            BitmapImage bitmap = new BitmapImage(new Uri(filepath, UriKind.Relative));
+            return bitmap;
+        }
+
+        public CroppedBitmap LoadBitmapFromSheet(string filepath, int x, int y, int width, int height)
+        {
+            BitmapImage bmp = new BitmapImage(new Uri(filepath, UriKind.Relative));
+            CroppedBitmap bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(x, y, width, height));
+            return bitmap;
+        }*/
+
+
+
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             engine.Board.Reset();

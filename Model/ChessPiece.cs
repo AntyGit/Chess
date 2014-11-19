@@ -13,28 +13,41 @@ namespace Chess.Model
     public enum PlayerType {Human, AI}
     public enum PieceType { Pawn,King,Queen,Rook,Knight,Bishop}
 
+    //This class should be made extendable later on.
+
     //INotify is an interface that is implemented to notify the view model that a property of the model has changed
-    public class ChessPiece : INotifyPropertyChanged
+    public abstract class ChessPiece : INotifyPropertyChanged
     {
         //Eventhandler that must be implemnted for INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Vec2 position;
-        private CroppedBitmap bitmap;
         private PlayerType player;
         private PieceType type;
 
-        public ChessPiece(int x, int y, CroppedBitmap bmp, PieceType type,PlayerType player)
+        public ChessPiece(int x, int y, PieceType type,PlayerType player)
         {
             position = new Vec2(x, y);
-            LoadBitmap(filepath,320,64,64,64);
+
             this.type = type;
             this.player = player;
         }
 
-        public CroppedBitmap Texture
+        public PieceType Type
         {
-            get {return bitmap;}
+            get 
+            {
+                return type;
+            }
+
+        }
+
+        public PlayerType Player
+        {
+            get
+            {
+                return player;
+            }
         }
 
         public Vec2 Position
@@ -48,12 +61,6 @@ namespace Chess.Model
             {
                 position = value;
             }
-        }
-
-        public void LoadBitmap(string filepath,int x,int y, int width,int height)
-        {
-            BitmapImage bmp = new BitmapImage(new Uri(filepath, UriKind.Relative));
-            bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(x, y, width, height));
         }
 
         //Publish an event (a property changed). This is called by set method of propreties

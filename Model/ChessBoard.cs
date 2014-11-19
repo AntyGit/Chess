@@ -14,7 +14,6 @@ namespace Chess.Model
         private ObservableCollection<ChessPiece> pieces;
         private int rows;
         private int columns;
-        private const string filepath = @"Assets/chess-pieces.png";
 
         public ChessBoard()
         {
@@ -74,15 +73,7 @@ namespace Chess.Model
 
         private void InitPieces()
         {
-            BitmapImage bmp = new BitmapImage(new Uri(filepath, UriKind.Relative));
-            CroppedBitmap bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(0,0, 64, 64));
             
-            for(int i = 0; i<rows; ++i)
-            {
-                ChessPiece p = new ChessPiece(0, 0, bitmap, PieceType.Pawn, PlayerType.Human);
-                pieces.Add(p);
-                Square[]
-            }
             
 
 

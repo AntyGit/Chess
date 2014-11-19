@@ -53,9 +53,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Bishop.cs" />
     <Compile Include="Model\ChessBoard.cs" />
+    <Compile Include="Model\King.cs" />
+    <Compile Include="Model\Knight.cs" />
+    <Compile Include="Model\Pawn.cs" />
+    <Compile Include="Model\Queen.cs" />
+    <Compile Include="Model\Rook.cs" />
     <Compile Include="Model\Square.cs" />
     <Compile Include="ViewModel\ChessGameEngine.cs" />
+    <Compile Include="View\AssetHandler.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,9 +109,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\B_BISHOP.png" />
+    <Resource Include="Assets\B_KING.png" />
+    <Content Include="Assets\B_KNIGHT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Assets\B_PAWN.png" />
+    <Resource Include="Assets\B_QUEEN.png" />
+    <Resource Include="Assets\B_ROOK.png" />
     <Content Include="Assets\chess-pieces.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
