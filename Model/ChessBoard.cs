@@ -19,7 +19,8 @@ namespace Chess.Model
         {
             this.rows = 8;
             this.columns = 8;
-            this.tiles = new Square[rows,columns];
+            this.tiles = new Square[columns,rows];
+            this.pieces = new ObservableCollection<ChessPiece>();
             SetupBoard();
         }
 
@@ -49,7 +50,8 @@ namespace Chess.Model
 
         private void AddTiles()
         {
-            SolidColorBrush color = new SolidColorBrush();
+            TileColor color;
+
             for (int i = 0; i < rows; ++i)
             {
                 for (int j = 0; j < columns; ++j)
@@ -57,13 +59,13 @@ namespace Chess.Model
 
                     if ((j + i) % 2 == 0)
                     {
-                        color = Brushes.WhiteSmoke;
+                        color = TileColor.Light;
 
                     }
 
                     else
                     {
-                        color = Brushes.SlateGray;
+                        color = TileColor.Dark;
                     }
 
                     tiles[i,j] = new Square(color,"");
@@ -73,11 +75,39 @@ namespace Chess.Model
 
         private void InitPieces()
         {
-            
-            
 
+            for(int i = 0; i<columns; ++i)
+            {
+                tiles[1,i].Piece = new Pawn(i, 1, PlayerType.Human);
+                tiles[rows - 2, i].Piece = new Pawn(i, rows - 2, PlayerType.AI);
+                pieces.Add(tiles[1, i].Piece);
+                pieces.Add(tiles[rows - 2, i].Piece);
+            }
 
+            tiles[0,0].Piece = new Rook(0, 0, PlayerType.Human);
+            tiles[rows-1,0].Piece = new Rook(0,rows-1, PlayerType.AI);
+            pieces.Add(tiles[0,0].Piece);
 
+            tiles[0, 1].Piece = new Knight(1, 0, PlayerType.Human);
+            tiles[rows - 1, 1].Piece = new Knight( 1, rows-1, PlayerType.AI);
+
+            tiles[0, 2].Piece = new Bishop(2, 0, PlayerType.Human);
+            tiles[rows - 1, 2].Piece = new Bishop(2, rows - 1, PlayerType.AI);
+
+            tiles[0, 3].Piece = new Queen(3, 0, PlayerType.Human);
+            tiles[rows - 1, 3].Piece = new Queen(3, rows - 1, PlayerType.AI);
+
+            tiles[0, 4].Piece = new King(4, 0, PlayerType.Human);
+            tiles[rows - 1, 4].Piece = new King(4, rows - 1, PlayerType.AI);
+
+            tiles[0, 5].Piece = new Bishop(5, 0, PlayerType.Human);
+            tiles[rows - 1, 5].Piece = new Bishop(5, rows - 1, PlayerType.AI);
+
+            tiles[0, 6].Piece = new Knight(6, 0, PlayerType.Human);
+            tiles[rows - 1, 6].Piece = new Knight(6, rows - 1, PlayerType.AI);
+
+            tiles[0, 7].Piece = new Rook(7, 0, PlayerType.Human);
+            tiles[rows - 1, 7].Piece = new Rook(7, rows - 1, PlayerType.AI);
         }
 
         public void Reset()

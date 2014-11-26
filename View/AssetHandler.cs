@@ -13,16 +13,16 @@ namespace Chess.View
         private readonly string filepath = @"Assets/chess-pieces.png";
         private Dictionary<Model.PieceType,System.Windows.Int32Rect> light_bounds;
         private Dictionary<Model.PieceType, System.Windows.Int32Rect> dark_bounds;
-        private Dictionary<Model.PieceType, Image> light_images;
-        private Dictionary<Model.PieceType, Image> dark_images;
+        private Dictionary<Model.PieceType, CroppedBitmap> light_images;
+        private Dictionary<Model.PieceType, CroppedBitmap> dark_images;
         private BitmapImage sprite_sheet; 
 
         public AssetHandler()
         {
             light_bounds = new Dictionary<Model.PieceType,System.Windows.Int32Rect>();
             dark_bounds = new Dictionary<Model.PieceType, System.Windows.Int32Rect>();
-            light_images = new Dictionary<Model.PieceType,Image>();
-            dark_images = new Dictionary<Model.PieceType,Image>();
+            light_images = new Dictionary<Model.PieceType,CroppedBitmap>();
+            dark_images = new Dictionary<Model.PieceType,CroppedBitmap>();
 
             light_bounds.Add(Model.PieceType.King, new System.Windows.Int32Rect(0, 64, 64, 64));
             light_bounds.Add(Model.PieceType.Queen, new System.Windows.Int32Rect(64, 64, 64, 64));
@@ -48,31 +48,47 @@ namespace Chess.View
             foreach(var p in light_bounds)
             {
                 CroppedBitmap bitmap = new CroppedBitmap(sprite_sheet, p.Value);
-                Image img = new Image();
-                img.Source = bitmap;
-                img.Width = 64;
-                img.Height = 64;
-                light_images.Add(p.Key, img);
+                light_images.Add(p.Key, bitmap);
             }
 
             foreach (var p in dark_bounds)
             {
                 CroppedBitmap bitmap = new CroppedBitmap(sprite_sheet, p.Value);
-                Image img = new Image();
-                img.Source = bitmap;
-                img.Width = 64;
-                img.Height = 64;
-                dark_images.Add(p.Key, img);
+                dark_images.Add(p.Key, bitmap);
             }
 
         }
 
+
+        /*public BitmapImage LoadBitmap(string filepath)
+        {
+            BitmapImage bitmap = new BitmapImage(new Uri(filepath, UriKind.Relative));
+            return bitmap;
+        }
+
+        public CroppedBitmap LoadBitmapFromSheet(string filepath, int x, int y, int width, int height)
+        {
+            BitmapImage bmp = new BitmapImage(new Uri(filepath, UriKind.Relative));
+            CroppedBitmap bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(x, y, width, height));
+            return bitmap;
+        }*/
+
         public Image GetImageFor(Model.PieceType piece_type, Model.PlayerType player)
         {
             if (player == Model.PlayerType.Human)
-                return light_images[piece_type];
+            {
+
+                Image img = new Image();
+                img.Source = light_images[piece_type];
+                return img;
+            }
+                
             else
-                return dark_images[piece_type];
+            {
+                Image img = new Image();
+                img.Source = dark_images[piece_type];
+                return img;
+            }
         }
 
     }

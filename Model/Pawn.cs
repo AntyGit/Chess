@@ -9,7 +9,8 @@ namespace Chess.Model
     public class Pawn : ChessPiece
     {
         public Pawn(int x, int y, PlayerType player) : base(x,y,PieceType.Pawn,player)
-        {}
-
+        {
+                
+        }
     }
 }

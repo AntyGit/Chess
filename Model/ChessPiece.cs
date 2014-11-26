@@ -24,13 +24,15 @@ namespace Chess.Model
         private Vec2 position;
         private PlayerType player;
         private PieceType type;
+        private List<Utils.Vec2> legal_moves;
 
         public ChessPiece(int x, int y, PieceType type,PlayerType player)
         {
-            position = new Vec2(x, y);
+            this.position = new Vec2(x, y);
 
             this.type = type;
             this.player = player;
+            this.legal_moves = new List<Vec2>();
         }
 
         public PieceType Type

@@ -29,3 +29,4 @@ C:\Users\Gabi\documents\visual studio 2013\Projects\GUI\GUI\obj\Debug\GUI.pdb
 \\neptunus.helix.ida.liu.se\antda166\Documents\Visual Studio 2013\Projects\Chess\obj\Debug\GUI.Properties.Resources.resources
 \\neptunus.helix.ida.liu.se\antda166\Documents\Visual Studio 2013\Projects\Chess\obj\Debug\Chess.csproj.GenerateResource.Cache
 C:\Users\Gabi\Documents\Visual Studio 2013\Projects\GUI\GUI\bin\Debug\Assets\B_KNIGHT.png
+\\neptunus.helix.ida.liu.se\antda166\Documents\Visual Studio 2013\Projects\Chess\bin\Debug\Assets\B_KNIGHT.png

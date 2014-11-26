@@ -7,13 +7,15 @@ using System.Windows.Media;
 
 namespace Chess.Model
 {
+    public enum TileColor {Dark,Light}
+
     public sealed class Square
     {
         private ChessPiece piece;
-        private SolidColorBrush color;
+        private TileColor color;
         private string name;
 
-        public Square(SolidColorBrush color, string name)
+        public Square(TileColor color, string name)
         {
             this.piece = null;
             this.color = color;
@@ -28,7 +30,7 @@ namespace Chess.Model
 
         }*/
 
-        public SolidColorBrush Color
+        public TileColor Color
         {
             get
             {

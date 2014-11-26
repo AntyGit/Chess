@@ -25,7 +25,9 @@ namespace Chess
     {
         private ChessGameEngine engine;
         //public ObservableCollection<ChessPiece> pieces;
-        private View.AssetHandler assets; 
+        private View.AssetHandler assets;
+        private Rectangle selected_rectangle;
+        private Rectangle piece_texture;
 
         public MainWindow()
         {
@@ -33,7 +35,11 @@ namespace Chess
             assets = new View.AssetHandler();
             engine = new ChessGameEngine();
             this.DataContext = engine;
+            selected_rectangle = null;
+            piece_texture = null;
             DrawBoard();
+            DrawPieces();
+
         }
         
         //WIP: Maybe I should do this in design (xaml).
@@ -45,41 +51,111 @@ namespace Chess
             foreach(Chess.Model.Square t in tiles)
             {
                 Rectangle r = new Rectangle();
-                r.Fill = t.Color;
+
+                if(t.Color == Model.TileColor.Light)
+                    r.Fill = new SolidColorBrush(Colors.WhiteSmoke);
+
+                else
+                    r.Fill = new SolidColorBrush(Colors.SlateGray);
+
+                //r.MouseEnter += r_MouseEnter;
+                //r.MouseLeave += r_MouseLeave;
                 tile_grid.Children.Add(r);
             }
             
-            Chess.Model.ChessPiece piece = new Model.Pawn(0,0,Model.PlayerType.Human);
-            Chess.Model.ChessPiece piece2 = new Model.King(0, 0,Model.PlayerType.AI);
 
-            Image img = assets.GetImageFor(piece.Type, piece.Player);
-            img.Margin = new Thickness(0, 0, 800,390);
-
-            grid.Children.Add(img);
-            
-            //grid.Children.Add(assets.GetImageFor(piece2.Type, piece2.Player));
         }
 
-
-        /*public BitmapImage LoadBitmap(string filepath)
+        private void DrawPieces()
         {
-            BitmapImage bitmap = new BitmapImage(new Uri(filepath, UriKind.Relative));
-            return bitmap;
+            Chess.Model.Square[,] tiles = engine.Board.Tiles;
+
+            for (int i = 0; i < 8; ++i )
+            {
+                for (int j = 0; j < 8; ++j)
+                {
+                    Rectangle r = new Rectangle();
+
+                    if (tiles[i,j].Piece == null)
+                    {
+                        //For some reason the rectangle needs to have its Fill property set to be able to trigger events. 
+                        //This is equivalent to Fill = "Transparent" (in XAML).  
+                        r.Fill = new SolidColorBrush(Colors.Transparent);
+                    }
+
+                    else
+                    {
+                        ImageBrush img = new ImageBrush (assets.GetImageFor(tiles[i, j].Piece.Type, tiles[i, j].Piece.Player).Source);
+                       
+                        img.Stretch = Stretch.None;
+                        r.Fill = img;    
+                    }
+
+                    r.MouseLeftButtonDown += r_MouseDown;
+                    r.MouseUp += r_MouseUp;
+                    piece_grid.Children.Add(r);
+                    
+                }
+            }
         }
 
-        public CroppedBitmap LoadBitmapFromSheet(string filepath, int x, int y, int width, int height)
+        void r_MouseUp(object sender, MouseEventArgs e)
         {
-            BitmapImage bmp = new BitmapImage(new Uri(filepath, UriKind.Relative));
-            CroppedBitmap bitmap = new CroppedBitmap(bmp, new System.Windows.Int32Rect(x, y, width, height));
-            return bitmap;
-        }*/
+            Rectangle r = sender as Rectangle;
 
+            System.Windows.Point p = e.GetPosition(this);
+            double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
+            double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
+
+            Utils.Vec2 position = new Utils.Vec2((int)(p.X/tile_width), (int)(p.Y/tile_height));
+
+            if (engine.Board.Tiles[position.Y, position.X].Piece == null)
+            {
+                r.Fill = piece_texture.Fill;
+                piece_texture.Fill = new SolidColorBrush(Colors.Transparent);
+                HighlightBorder(r);
+            }
+        }
+
+        void HighlightBorder(Rectangle r)
+        {
+            if (r != selected_rectangle && selected_rectangle != null)
+            {
+                selected_rectangle.Stroke = null;
+            }
+
+            selected_rectangle = r;
+            r.StrokeThickness = 3;
+            r.Stroke = new SolidColorBrush(Colors.Crimson);
+        }
+
+        void r_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Rectangle r = sender as Rectangle;
+
+            HighlightBorder(r);
+
+            System.Windows.Point p = e.GetPosition(this);
+            double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
+            double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
+
+            Utils.Vec2 position = new Utils.Vec2((int)(p.X/tile_width), (int)(p.Y/tile_height));
+
+            if(engine.Board.Tiles[position.Y,position.X].Piece != null)
+            {
+                piece_texture = r;
+
+            }
+
+        }
 
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             engine.Board.Reset();
         }
+
         
+
     }
 }
