@@ -111,14 +111,42 @@
     <Folder Include="Commands\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\B_BISHOP.png" />
-    <Resource Include="Assets\B_KING.png" />
+    <Content Include="Assets\W_BISHOP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\W_KING.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\W_KNIGHT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\W_PAWN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\W_QUEEN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\W_ROOK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\B_BISHOP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\B_KING.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\B_KNIGHT.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Assets\B_PAWN.png" />
-    <Resource Include="Assets\B_QUEEN.png" />
-    <Resource Include="Assets\B_ROOK.png" />
+    <Content Include="Assets\B_PAWN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\B_QUEEN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\B_ROOK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\chess-pieces.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

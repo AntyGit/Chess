@@ -25,11 +25,12 @@ namespace Chess.Model
         private PlayerType player;
         private PieceType type;
         private List<Utils.Vec2> legal_moves;
+        private string filepath; 
 
-        public ChessPiece(int x, int y, PieceType type,PlayerType player)
+        public ChessPiece(int x, int y, string path,PieceType type,PlayerType player)
         {
             this.position = new Vec2(x, y);
-
+            this.filepath = path;
             this.type = type;
             this.player = player;
             this.legal_moves = new List<Vec2>();
@@ -65,6 +66,14 @@ namespace Chess.Model
             }
         }
 
+        public string Filepath
+        {
+            get
+            {
+                return filepath;
+            }
+
+        }
         //Publish an event (a property changed). This is called by set method of propreties
         //[CallerMemberName] causes the name of the property that calls this method to substituted as an argument.
         protected virtual void NotifyPropertyChanged([CallerMemberName] string property_name = "")

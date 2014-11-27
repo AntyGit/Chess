@@ -8,7 +8,8 @@ namespace Chess.Model
 {
     public class Bishop : ChessPiece
     {
-        public Bishop(int x, int y, PlayerType player) : base(x,y,PieceType.Bishop,player)
+        public Bishop(int x, int y, PlayerType player)
+            : base(x, y, @"Assets/W_BISHOP.png", PieceType.Bishop, player)
         { }
     }
 }

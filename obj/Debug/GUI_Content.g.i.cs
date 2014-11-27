@@ -8,7 +8,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/w_bishop.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/w_king.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/w_knight.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/w_pawn.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/w_queen.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/w_rook.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/b_bishop.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/b_king.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/b_knight.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/b_pawn.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/b_queen.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/b_rook.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/chess-pieces.png")]
 
 

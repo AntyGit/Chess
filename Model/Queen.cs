@@ -8,7 +8,8 @@ namespace Chess.Model
 {
     public class Queen : ChessPiece
     {
-        public Queen(int x, int y, PlayerType player) : base(x,y,PieceType.Queen,player)
+        public Queen(int x, int y, PlayerType player)
+            : base(x, y, @"Assets/W_QUEEN.png", PieceType.Queen, player)
         { }
     }
 }
