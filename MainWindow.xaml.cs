@@ -24,21 +24,19 @@ namespace Chess
     public partial class MainWindow : Window
     {
         private ChessGameEngine engine;
-        //public ObservableCollection<ChessPiece> pieces;
-        //private View.AssetHandler assets;
         private Rectangle selected_rectangle;
         private Rectangle piece_texture;
+        bool piece_selected;
 
         public MainWindow()
         {
             InitializeComponent();
-            //assets = new View.AssetHandler();
             engine = new ChessGameEngine();
             this.DataContext = engine;
             selected_rectangle = null;
             piece_texture = null;
+            piece_selected = false;
             DrawBoard();
-            //DrawPieces();
         }
 
         //WIP: Maybe I should do this in design (xaml).
@@ -57,47 +55,14 @@ namespace Chess
                 else
                     r.Fill = new SolidColorBrush(Colors.SlateGray);
 
-                //r.MouseEnter += r_MouseEnter;
+                r.MouseDown += Piece_MouseDown;
                 //r.MouseLeave += r_MouseLeave;
                 tile_grid.Children.Add(r);
             }
             
 
         }
-        /*
-                private void DrawPieces()
-                {
-                    Chess.Model.Square[,] tiles = engine.Board.Tiles;
-
-                    for (int i = 0; i < 8; ++i )
-                    {
-                        for (int j = 0; j < 8; ++j)
-                        {
-                            Rectangle r = new Rectangle();
-
-                            if (tiles[i,j].Piece == null)
-                            {
-                                //For some reason the rectangle needs to have its Fill property set to be able to trigger events. 
-                                //This is equivalent to Fill = "Transparent" (in XAML).  
-                                r.Fill = new SolidColorBrush(Colors.Transparent);
-                            }
-
-                            else
-                            {
-                                ImageBrush img = new ImageBrush (assets.GetImageFor(tiles[i, j].Piece.Type, tiles[i, j].Piece.Player).Source);
-                       
-                                img.Stretch = Stretch.None;
-                                r.Fill = img;    
-                            }
-
-                            r.MouseLeftButtonDown += r_MouseDown;
-                            r.MouseUp += r_MouseUp;
-                            piece_grid.Children.Add(r);
-                    
-                        }
-                    }
-                }
-
+      
                 void r_MouseUp(object sender, MouseEventArgs e)
                 {
                     Rectangle r = sender as Rectangle;
@@ -128,26 +93,34 @@ namespace Chess
                     r.Stroke = new SolidColorBrush(Colors.Crimson);
                 }
 
-                void r_MouseDown(object sender, MouseButtonEventArgs e)
+                void Piece_MouseDown(object sender, MouseButtonEventArgs e)
                 {
-                    Rectangle r = sender as Rectangle;
-
-                    HighlightBorder(r);
-
-                    System.Windows.Point p = e.GetPosition(this);
-                    double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
-                    double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
-
-                    Utils.Vec2 position = new Utils.Vec2((int)(p.X/tile_width), (int)(p.Y/tile_height));
-
-                    if(engine.Board.Tiles[position.Y,position.X].Piece != null)
+                    if (piece_selected == false && sender is Image)
                     {
-                        piece_texture = r;
+                        piece_selected = true;
+                        System.Windows.Point p = e.GetPosition(this);
+                        double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
+                        double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
 
+                        Utils.Vec2 source = new Utils.Vec2((int)(p.X / tile_width), (int)(p.Y / tile_height));
+                        engine.InitMove(source);
+                    }
+
+                    else if(piece_selected==true && sender is Rectangle)
+                    {
+                        Rectangle r = sender as Rectangle;
+
+                        System.Windows.Point p = e.GetPosition(this);
+                        double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
+                        double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
+
+                        Utils.Vec2 destination = new Utils.Vec2((int)(p.X / tile_width), (int)(p.Y / tile_height));
+                        engine.MovePiece(destination);
+                        piece_selected = false;
                     }
 
                 }
-*/
+
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
                 {

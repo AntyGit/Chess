@@ -9,7 +9,7 @@ namespace Chess.Model
     public class Knight : ChessPiece
     {
         public Knight(int x, int y, PlayerType player)
-            : base(x, y, @"Assets/W_KNIGHT.png", PieceType.Knight, player)
+            : base(x, y, PieceType.Knight, player)
         { }
     }
 }

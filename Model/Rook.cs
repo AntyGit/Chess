@@ -9,7 +9,7 @@ namespace Chess.Model
     public class Rook : ChessPiece
     {
         public Rook(int x, int y, PlayerType player)
-            : base(x, y, @"Assets/chess-pieces.png", PieceType.Rook, player)
+            : base(x, y, PieceType.Rook, player)
         { }
 
     }

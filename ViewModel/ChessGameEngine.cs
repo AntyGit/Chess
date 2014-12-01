@@ -11,9 +11,11 @@ namespace Chess.ViewModel
     class ChessGameEngine
     {
        private ChessBoard board;
+       private Utils.Vec2 source; 
 
        public ChessGameEngine()
        { 
+          source = null;
           board = new ChessBoard();
 
        }
@@ -26,16 +28,20 @@ namespace Chess.ViewModel
            }
        }
 
-       public void StartMove(Utils.Vec2 position)
+       public void InitMove(Utils.Vec2 source)
        {
-           Square tile = board.Tiles[position.Y,position.X];
-           ChessPiece p = tile.Piece;
-           board.Tiles[position.Y + 1, position.X].Piece = p;
-           
+           this.source = source;
+       }
 
-           /*if(tile.Piece.Player == PlayerType.Human)
-           {
-           }*/
+       public void MovePiece(Utils.Vec2 destination)
+       {
+  
+           if(Board.Tiles[source.X, source.Y].Piece.Player == PlayerType.Human)
+           {         
+            Board.Tiles[destination.X, destination.Y].Piece = Board.Tiles[source.X, source.Y].Piece;
+            Board.Tiles[destination.X, destination.Y].Piece.Position = new Utils.Vec2(destination.X, destination.Y);
+            Board.Tiles[source.X, source.Y].Piece = null;
+           }
        }
 
 

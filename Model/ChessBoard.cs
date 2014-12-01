@@ -54,7 +54,6 @@ namespace Chess.Model
         {
             AddTiles();
             InitPieces();
-            //AddPieces();
         }
 
         private void AddTiles()
@@ -77,8 +76,9 @@ namespace Chess.Model
                         color = TileColor.Dark;
                     }
 
-                    //tiles[i,j] = new Square(color,"");
-                    observable_tiles.Add(new Square (color, ""));
+                    Square s = new Square(color, "");
+                    tiles[i, j] = s;
+                    observable_tiles.Add(s);
                 }
             }
         }
@@ -86,12 +86,14 @@ namespace Chess.Model
         private void InitPieces()
         {
 
-            /*for(int i = 0; i<columns; ++i)
+            for(int i = 0; i<columns; ++i)
             {
-                tiles[1,i].Piece = new Pawn(i, 1, PlayerType.Human);
-                tiles[rows - 2, i].Piece = new Pawn(i, rows - 2, PlayerType.AI);
-                pieces.Add(tiles[1, i].Piece);
-                pieces.Add(tiles[rows - 1, i].Piece);
+                Pawn wp = new Pawn(i, 1, PlayerType.Human);
+                Pawn bp = new Pawn(i, rows - 2, PlayerType.AI);
+                tiles[i,1].Piece = wp;
+                tiles[i,rows-1].Piece = bp;
+                pieces.Add(wp);
+                pieces.Add(bp);
             }
 
             tiles[0,0].Piece = new Rook(0, 0, PlayerType.Human);
@@ -132,10 +134,10 @@ namespace Chess.Model
             tiles[0, 7].Piece = new Rook(7, 0, PlayerType.Human);
             tiles[rows - 1, 7].Piece = new Rook(7, rows - 1, PlayerType.AI);
             pieces.Add(tiles[0, 7].Piece);
-            pieces.Add(tiles[rows - 1, 7].Piece);*/
+            pieces.Add(tiles[rows - 1, 7].Piece);
 
-            observable_tiles.ElementAt(0).Piece = new Rook(0, 0, PlayerType.Human);
-            observable_tiles.ElementAt(1).Piece = new Knight(1, 0, PlayerType.Human);
+            pieces.Add(new Knight(1, 0, PlayerType.Human));
+            pieces.Add(new Rook(0, 0, PlayerType.Human));
 
         }
 

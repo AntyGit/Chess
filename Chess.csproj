@@ -62,7 +62,6 @@
     <Compile Include="Model\Rook.cs" />
     <Compile Include="Model\Square.cs" />
     <Compile Include="ViewModel\ChessGameEngine.cs" />
-    <Compile Include="View\AssetHandler.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\W_BISHOP.png">
