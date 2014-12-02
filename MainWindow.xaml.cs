@@ -43,7 +43,7 @@ namespace Chess
         private void DrawBoard()
         {
 
-            ObservableCollection<Square> tiles = engine.Board.ObservableTiles;
+           Square[,] tiles = engine.Board.Tiles;
 
             foreach(Chess.Model.Square t in tiles)
             {
@@ -95,27 +95,25 @@ namespace Chess
 
                 void Piece_MouseDown(object sender, MouseButtonEventArgs e)
                 {
-                    if (piece_selected == false && sender is Image)
-                    {
-                        piece_selected = true;
-                        System.Windows.Point p = e.GetPosition(this);
-                        double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
-                        double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
+                    System.Windows.Point p = e.GetPosition(this);
+                    int tile_width = (int)(tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count)));
+                    int tile_height = (int)(tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count)));
 
-                        Utils.Vec2 source = new Utils.Vec2((int)(p.X / tile_width), (int)(p.Y / tile_height));
-                        engine.InitMove(source);
+                    Utils.Vec2 position = new Utils.Vec2((int)(p.X / tile_width), (int)(p.Y / tile_height));
+
+                    if (sender is Image && piece_selected == false)
+                    {
+                        
+                        engine.InitMove(position);
+                        piece_selected = true;
                     }
 
-                    else if(piece_selected==true && sender is Rectangle)
+                    else if(sender is Rectangle && piece_selected == true)
                     {
                         Rectangle r = sender as Rectangle;
 
-                        System.Windows.Point p = e.GetPosition(this);
-                        double tile_width = tile_grid.RenderSize.Width / (Math.Sqrt(tile_grid.Children.Count));
-                        double tile_height = tile_grid.RenderSize.Height / (Math.Sqrt(tile_grid.Children.Count));
-
-                        Utils.Vec2 destination = new Utils.Vec2((int)(p.X / tile_width), (int)(p.Y / tile_height));
-                        engine.MovePiece(destination);
+ 
+                        engine.MovePiece(position);
                         piece_selected = false;
                     }
 

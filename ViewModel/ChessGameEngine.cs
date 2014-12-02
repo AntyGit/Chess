@@ -35,12 +35,12 @@ namespace Chess.ViewModel
 
        public void MovePiece(Utils.Vec2 destination)
        {
-  
-           if(Board.Tiles[source.X, source.Y].Piece.Player == PlayerType.Human)
-           {         
-            Board.Tiles[destination.X, destination.Y].Piece = Board.Tiles[source.X, source.Y].Piece;
-            Board.Tiles[destination.X, destination.Y].Piece.Position = new Utils.Vec2(destination.X, destination.Y);
-            Board.Tiles[source.X, source.Y].Piece = null;
+           ChessPiece p = Board.GetPiece(source);
+
+           if (p != null && p.Player == PlayerType.Human)
+           {
+               p.Position = destination;
+               Board.UpdateTiles(source,destination);
            }
        }
 

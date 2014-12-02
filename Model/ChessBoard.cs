@@ -11,7 +11,6 @@ namespace Chess.Model
     class ChessBoard
     {
         private Square[,] tiles;
-        private ObservableCollection<Square> observable_tiles;
         private ObservableCollection<ChessPiece> pieces;
         private int rows;
         private int columns;
@@ -21,7 +20,6 @@ namespace Chess.Model
             this.rows = 8;
             this.columns = 8;
             this.tiles = new Square[columns,rows];
-            this.observable_tiles = new ObservableCollection<Square>();
             this.pieces = new ObservableCollection<ChessPiece>();
             SetupBoard();
         }
@@ -34,7 +32,6 @@ namespace Chess.Model
             }
         }
 
-
         public Square[,] Tiles
         {
             get
@@ -43,13 +40,6 @@ namespace Chess.Model
             }
         }
 
-        public ObservableCollection<Square> ObservableTiles
-        {
-            get
-            {
-                return observable_tiles;
-            }
-        }
         public void SetupBoard()
         {
             AddTiles();
@@ -78,7 +68,6 @@ namespace Chess.Model
 
                     Square s = new Square(color, "");
                     tiles[i, j] = s;
-                    observable_tiles.Add(s);
                 }
             }
         }
@@ -91,54 +80,64 @@ namespace Chess.Model
                 Pawn wp = new Pawn(i, 1, PlayerType.Human);
                 Pawn bp = new Pawn(i, rows - 2, PlayerType.AI);
                 tiles[i,1].Piece = wp;
-                tiles[i,rows-1].Piece = bp;
+                tiles[i,rows-2].Piece = bp;
                 pieces.Add(wp);
                 pieces.Add(bp);
             }
 
             tiles[0,0].Piece = new Rook(0, 0, PlayerType.Human);
-            tiles[rows-1,0].Piece = new Rook(0,rows-1, PlayerType.AI);
+            tiles[0,rows-1].Piece = new Rook(0,rows-1, PlayerType.AI);
             pieces.Add(tiles[0,0].Piece);
-            pieces.Add(tiles[rows - 1, 0].Piece);
+            pieces.Add(tiles[0, rows - 1].Piece);
 
-            tiles[0, 1].Piece = new Knight(1, 0, PlayerType.Human);
-            tiles[rows - 1, 1].Piece = new Knight( 1, rows-1, PlayerType.AI);
-            pieces.Add(tiles[0, 1].Piece);
+            tiles[1,0].Piece = new Knight(1, 0, PlayerType.Human);
+            tiles[rows - 1,1].Piece = new Knight( 1, rows-1, PlayerType.AI);
+            pieces.Add(tiles[1, 0].Piece);
             pieces.Add(tiles[rows - 1, 1].Piece);
 
-            tiles[0, 2].Piece = new Bishop(2, 0, PlayerType.Human);
-            tiles[rows - 1, 2].Piece = new Bishop(2, rows - 1, PlayerType.AI);
-            pieces.Add(tiles[0, 2].Piece);
-            pieces.Add(tiles[rows - 1, 2].Piece);
+            tiles[2,0].Piece = new Bishop(2, 0, PlayerType.Human);
+            tiles[2,rows - 1].Piece = new Bishop(2, rows - 1, PlayerType.AI);
+            pieces.Add(tiles[2,0].Piece);
+            pieces.Add(tiles[2,rows - 1].Piece);
 
-            tiles[0, 3].Piece = new Queen(3, 0, PlayerType.Human);
-            tiles[rows - 1, 3].Piece = new Queen(3, rows - 1, PlayerType.AI);
-            pieces.Add(tiles[0, 3].Piece);
-            pieces.Add(tiles[rows - 1, 3].Piece);
+            tiles[3,0].Piece = new Queen(3, 0, PlayerType.Human);
+            tiles[3,rows - 1].Piece = new Queen(3, rows - 1, PlayerType.AI);
+            pieces.Add(tiles[3,0].Piece);
+            pieces.Add(tiles[3,rows - 1].Piece);
 
-            tiles[0, 4].Piece = new King(4, 0, PlayerType.Human);
-            tiles[rows - 1, 4].Piece = new King(4, rows - 1, PlayerType.AI);
-            pieces.Add(tiles[0, 4].Piece);
-            pieces.Add(tiles[rows - 1, 4].Piece);
+            tiles[4,0].Piece = new King(4, 0, PlayerType.Human);
+            tiles[4,rows - 1].Piece = new King(4, rows - 1, PlayerType.AI);
+            pieces.Add(tiles[4,0].Piece);
+            pieces.Add(tiles[4,rows - 1].Piece);
 
-            tiles[0, 5].Piece = new Bishop(5, 0, PlayerType.Human);
-            tiles[rows - 1, 5].Piece = new Bishop(5, rows - 1, PlayerType.AI);
-            pieces.Add(tiles[0, 5].Piece);
-            pieces.Add(tiles[rows - 1, 5].Piece);
+            tiles[5,0].Piece = new Bishop(5, 0, PlayerType.Human);
+            tiles[5,rows - 1].Piece = new Bishop(5, rows - 1, PlayerType.AI);
+            pieces.Add(tiles[5,0].Piece);
+            pieces.Add(tiles[5,rows - 1].Piece);
 
-            tiles[0, 6].Piece = new Knight(6, 0, PlayerType.Human);
-            tiles[rows - 1, 6].Piece = new Knight(6, rows - 1, PlayerType.AI);
-            pieces.Add(tiles[0, 6].Piece);
-            pieces.Add(tiles[rows - 1, 6].Piece);
+            tiles[6,0].Piece = new Knight(6, 0, PlayerType.Human);
+            tiles[6,rows - 1].Piece = new Knight(6, rows - 1, PlayerType.AI);
+            pieces.Add(tiles[6,0].Piece);
+            pieces.Add(tiles[6,rows - 1].Piece);
 
-            tiles[0, 7].Piece = new Rook(7, 0, PlayerType.Human);
-            tiles[rows - 1, 7].Piece = new Rook(7, rows - 1, PlayerType.AI);
-            pieces.Add(tiles[0, 7].Piece);
-            pieces.Add(tiles[rows - 1, 7].Piece);
+            tiles[7,0].Piece = new Rook(7, 0, PlayerType.Human);
+            tiles[7,rows - 1].Piece = new Rook(7, rows - 1, PlayerType.AI);
+            pieces.Add(tiles[7,0].Piece);
+            pieces.Add(tiles[7,rows - 1].Piece);
 
-            pieces.Add(new Knight(1, 0, PlayerType.Human));
-            pieces.Add(new Rook(0, 0, PlayerType.Human));
 
+        }
+
+        public ChessPiece GetPiece(Utils.Vec2 position)
+        {
+            return tiles[position.X, position.Y].Piece;
+        }
+
+        public void UpdateTiles(Utils.Vec2 source, Utils.Vec2 destination)
+        {
+            tiles[destination.X, destination.Y].Piece = tiles[source.X, source.Y].Piece;
+            tiles[source.X, source.Y].Piece = null;
+             
         }
 
         public void Reset()
