@@ -19,7 +19,7 @@ namespace Chess.Model
         private Vec2 position;
         private PlayerType player;
         private PieceType type;
-        private List<Utils.Vec2> legal_moves;
+        protected List<Utils.Vec2> legal_moves;
 
         public ChessPiece(int x, int y,PieceType type,PlayerType player)
         {
@@ -36,6 +36,14 @@ namespace Chess.Model
                 return type;
             }
 
+        }
+
+        public List<Utils.Vec2> LegalMoves
+        {
+            get
+            {
+                return legal_moves;
+            }
         }
 
         public PlayerType Player
@@ -60,6 +68,7 @@ namespace Chess.Model
             }
         }
 
+        public abstract void UpdateLegalMoves(ChessBoard board);
 
 
         //Publish an event (a property changed). This is called by set method of propreties

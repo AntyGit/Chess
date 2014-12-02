@@ -17,7 +17,6 @@ namespace Chess.ViewModel
        { 
           source = null;
           board = new ChessBoard();
-
        }
 
        public ChessBoard Board
@@ -37,13 +36,24 @@ namespace Chess.ViewModel
        {
            ChessPiece p = Board.GetPiece(source);
 
-           if (p != null && p.Player == PlayerType.Human)
+           if (p.Player == PlayerType.Human)
            {
-               p.Position = destination;
-               Board.UpdateTiles(source,destination);
+               if(IsValidMove(destination,p))
+               {
+                   if (!source.Equals(destination))
+                   {
+                       p.Position = destination;
+                       Board.UpdateTiles(source, destination);
+                       Board.UpdatePieces();
+                   }
+               }
            }
        }
 
+       private bool IsValidMove(Utils.Vec2 destination, ChessPiece piece)
+       {
+           return piece.LegalMoves.Contains(destination);
+       }
 
     }
 

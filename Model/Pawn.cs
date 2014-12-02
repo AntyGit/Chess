@@ -10,6 +10,20 @@ namespace Chess.Model
     {
         public Pawn(int x, int y, PlayerType player)
             : base(x, y, PieceType.Pawn, player)
-            {}
+            {
+                if(player == PlayerType.Human)
+                {
+                    legal_moves.Add(new Utils.Vec2(x, y + 1));
+                }
+
+                else
+                {
+                    legal_moves.Add(new Utils.Vec2(x, y - 1));
+                }
+            }
+        public override void UpdateLegalMoves(ChessBoard board)
+        {
+
+        }
     }
 }

@@ -11,5 +11,10 @@ namespace Chess.Model
         public Bishop(int x, int y, PlayerType player)
             : base(x, y, PieceType.Bishop, player)
         { }
+
+        public override void UpdateLegalMoves(ChessBoard board)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

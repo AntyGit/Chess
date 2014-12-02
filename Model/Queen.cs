@@ -11,5 +11,10 @@ namespace Chess.Model
         public Queen(int x, int y, PlayerType player)
             : base(x, y, PieceType.Queen, player)
         { }
+
+        public override void UpdateLegalMoves(ChessBoard board)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

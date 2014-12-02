@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace Chess.Model
 {
-    class ChessBoard
+    public class ChessBoard
     {
         private Square[,] tiles;
         private ObservableCollection<ChessPiece> pieces;
@@ -44,6 +44,22 @@ namespace Chess.Model
         {
             AddTiles();
             InitPieces();
+        }
+
+        public int Columns
+        {
+            get
+            {
+                return columns;
+            }
+        }
+
+        public int Rows
+        {
+            get
+            {
+                return rows;
+            }
         }
 
         private void AddTiles()
@@ -125,7 +141,6 @@ namespace Chess.Model
             pieces.Add(tiles[7,0].Piece);
             pieces.Add(tiles[7,rows - 1].Piece);
 
-
         }
 
         public ChessPiece GetPiece(Utils.Vec2 position)
@@ -137,7 +152,14 @@ namespace Chess.Model
         {
             tiles[destination.X, destination.Y].Piece = tiles[source.X, source.Y].Piece;
             tiles[source.X, source.Y].Piece = null;
-             
+        }
+
+        public void UpdatePieces()
+        {
+            /*foreach(ChessPiece p in Pieces)
+            {
+                //p.UpdateLegalMoves(this);
+            }*/
         }
 
         public void Reset()
