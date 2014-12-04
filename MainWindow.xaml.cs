@@ -86,14 +86,17 @@ namespace Chess
 
                     Console.WriteLine(position.X +" " +position.Y);
 
-                    if (sender is Image && piece_selected == false)
+                    if (piece_selected == false)
                     {
-                        
                         engine.InitMove(position);
-                        piece_selected = true;
+                        if(sender is Image)
+                        { 
+                            piece_selected = true;
+                        }
+
                     }
 
-                    else if(sender is Rectangle && piece_selected == true)
+                    else if(piece_selected == true)
                     {
                         Rectangle r = sender as Rectangle;
 

@@ -55,12 +55,15 @@
     </ApplicationDefinition>
     <Compile Include="Model\Bishop.cs" />
     <Compile Include="Model\ChessBoard.cs" />
+    <Compile Include="Model\ChessRuleEngine.cs" />
     <Compile Include="Model\King.cs" />
     <Compile Include="Model\Knight.cs" />
     <Compile Include="Model\Pawn.cs" />
     <Compile Include="Model\Queen.cs" />
     <Compile Include="Model\Rook.cs" />
+    <Compile Include="Model\RuleEngine.cs" />
     <Compile Include="Model\Square.cs" />
+    <Compile Include="Utils\DataTypeConverter.cs" />
     <Compile Include="ViewModel\ChessGameEngine.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

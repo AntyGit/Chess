@@ -11,13 +11,20 @@ namespace Chess.ViewModel
     class ChessGameEngine
     {
        private ChessBoard board;
-       private Utils.Vec2 source; 
+       private RuleEngine rule_engine;
+       private Utils.Vec2 source;
+       //private PlayerType next_player;
+        
+       //public event Func<PlayerType> e;
 
        public ChessGameEngine()
        { 
-          source = null;
+          source = new Utils.Vec2();
           board = new ChessBoard();
+          rule_engine = new ChessRuleEngine(board);
+          //next_player = PlayerType.Human;
        }
+
 
        public ChessBoard Board
        {
@@ -38,21 +45,16 @@ namespace Chess.ViewModel
 
            if (p.Player == PlayerType.Human)
            {
-               if(IsValidMove(destination,p))
+               if(rule_engine.IsMoveValid(p,destination))
                {
                    if (!source.Equals(destination))
                    {
                        p.Position = destination;
                        Board.UpdateTiles(source, destination);
-                       Board.UpdatePieces();
+                       rule_engine.UpdateRules();
                    }
                }
            }
-       }
-
-       private bool IsValidMove(Utils.Vec2 destination, ChessPiece piece)
-       {
-           return piece.LegalMoves.Contains(destination);
        }
 
     }

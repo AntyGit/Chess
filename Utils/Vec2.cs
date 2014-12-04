@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Utils
 {
-    public sealed class Vec2
+    public struct Vec2
     {
         private int x, y;
-
-        public Vec2()
-        {
-            x = 0;
-            y = 0;
-        }
 
         public Vec2(int x, int y)
         {
@@ -60,7 +54,9 @@ namespace Chess.Utils
             return new Vec2(point1.X - point2.X, point1.Y - point2.Y);
         }
 
-
+        
+        //If this was a reference type the following would be neccessary
+        /* 
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -74,7 +70,7 @@ namespace Chess.Utils
 
 
             return (this.X == p.X) && (this.Y == p.Y);
-        }
+        }*/
         
     }
 }

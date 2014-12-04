@@ -10,53 +10,88 @@ namespace Chess.Model
     {
         public Rook(int x, int y, PlayerType player)
             : base(x, y, PieceType.Rook, player)
-        {
-            legal_moves.Add(new Utils.Vec2(x, y));
-            legal_moves.Add(new Utils.Vec2(x, y));
-            legal_moves.Add(new Utils.Vec2(x, y));
-            legal_moves.Add(new Utils.Vec2(x, y));
-        }
+        {}
 
         public override void UpdateLegalMoves(ChessBoard board)
         {
-            for (int i = Position.X; i < board.Columns; ++i )
-            {
-                if(board.Tiles[i , Position.Y].Piece != null)
+
+                List<Utils.Vec2> moves = new List<Utils.Vec2>();
+
+                for (int i = Position.X+1; i < board.Columns; ++i)
                 {
-                    legal_moves[0] = new Utils.Vec2(i - 1, Position.Y);
-                    break;
-                }
-            }
+                    if (board.Tiles[i, Position.Y].Piece == null)
+                    {
+                        moves.Add(new Utils.Vec2(i, Position.Y));
+                    }
 
-            for (int i = Position.X; i >= 0; --i )
-            {
-                if(board.Tiles[i , Position.Y].Piece != null)
+                    else
+                    {
+                        if(board.Tiles[i, Position.Y].Piece.Player != this.Player)
+                        {
+                            moves.Add(new Utils.Vec2(i, Position.Y));
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = Position.X-1; i >= 0; --i)
                 {
-                    legal_moves[1] = new Utils.Vec2(i+1, Position.Y);
-                    break;
-                }
-            }
+                    if (board.Tiles[i, Position.Y].Piece == null)
+                    {
+                        moves.Add(new Utils.Vec2(i, Position.Y));
+                    }
 
-            for (int i = Position.Y; i < board.Rows; ++i )
-            {
-                if (board.Tiles[Position.X, i].Piece != null)
+                    else
+                    {
+                        if (board.Tiles[i, Position.Y].Piece.Player != this.Player)
+                        {
+                            moves.Add(new Utils.Vec2(i, Position.Y));
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = Position.Y-1; i >= 0 ; --i)
                 {
-                    legal_moves[2] = new Utils.Vec2(Position.X, i+1);
-                    break;
-                }
-            }
+                    if (board.Tiles[Position.X, i].Piece == null)
+                    {
+                        moves.Add(new Utils.Vec2(Position.X, i));
+                    }
 
-            for (int i = Position.Y; i >= 0; --i)
-            {
-                if (board.Tiles[Position.X, i].Piece != null)
+                    else
+                    {
+                        if (board.Tiles[Position.X, i].Piece.Player != this.Player)
+                        {
+                            moves.Add(new Utils.Vec2(Position.X, i));
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = Position.Y+1; i < board.Rows; ++i)
                 {
-                    legal_moves[3] = new Utils.Vec2(Position.X, i-1);
-                    break;
+                    if (board.Tiles[Position.X, i].Piece == null)
+                    {
+                        moves.Add(new Utils.Vec2(Position.X, i));
+                    }
+
+                    else
+                    {
+                        if (board.Tiles[Position.X, i].Piece.Player != this.Player)
+                        {
+                            moves.Add(new Utils.Vec2(Position.X, i));
+                            break;
+                        }
+
+                        else
+                        {
+                            moves.Add(new Utils.Vec2(Position.X, i-1));
+                            break;
+                        }
+                    }
                 }
+
+                legal_moves = moves;
             }
-
-        }
-        
-
     }
 }

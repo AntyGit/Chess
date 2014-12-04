@@ -20,6 +20,7 @@ namespace Chess.Model
         private PlayerType player;
         private PieceType type;
         protected List<Utils.Vec2> legal_moves;
+        protected readonly List<Utils.Vec2> direction_vectors;
 
         public ChessPiece(int x, int y,PieceType type,PlayerType player)
         {
@@ -27,9 +28,10 @@ namespace Chess.Model
             this.type = type;
             this.player = player;
             this.legal_moves = new List<Vec2>();
+            this.direction_vectors = new List<Vec2>();
         }
 
-        public PieceType Type
+        public PieceType PieceType
         {
             get 
             {
@@ -38,11 +40,26 @@ namespace Chess.Model
 
         }
 
+        public System.Type Type
+        {
+            get
+            {
+                
+                return GetType();
+                
+            }
+        }
+
         public List<Utils.Vec2> LegalMoves
         {
             get
             {
                 return legal_moves;
+            }
+
+            set
+            {
+                this.legal_moves = value;
             }
         }
 

@@ -107,9 +107,9 @@ namespace Chess.Model
             pieces.Add(tiles[0, rows - 1].Piece);
 
             tiles[1,0].Piece = new Knight(1, 0, PlayerType.Human);
-            tiles[rows - 1,1].Piece = new Knight( 1, rows-1, PlayerType.AI);
+            tiles[1,rows-1].Piece = new Knight(1, rows-1, PlayerType.AI);
             pieces.Add(tiles[1, 0].Piece);
-            pieces.Add(tiles[rows - 1, 1].Piece);
+            pieces.Add(tiles[1, rows - 1].Piece);
 
             tiles[2,0].Piece = new Bishop(2, 0, PlayerType.Human);
             tiles[2,rows - 1].Piece = new Bishop(2, rows - 1, PlayerType.AI);
@@ -148,18 +148,36 @@ namespace Chess.Model
             return tiles[position.X, position.Y].Piece;
         }
 
+        public bool OutOfBounds(Utils.Vec2 position)
+        {
+            return position.X > columns-1 || position.X < 0 || position.Y > rows-1 || position.Y < 0;
+        }
+
         public void UpdateTiles(Utils.Vec2 source, Utils.Vec2 destination)
         {
+            ChessPiece p = tiles[destination.X, destination.Y].Piece;
+
+
+            if (p != null && tiles[source.X, source.Y].Piece.Player != tiles[destination.X, destination.Y].Piece.Player)
+            { 
+                int index = pieces.IndexOf(p);
+                if(index != -1)
+                {
+                    pieces.Remove(pieces.ElementAt(index));
+
+                }
+            }
+
             tiles[destination.X, destination.Y].Piece = tiles[source.X, source.Y].Piece;
             tiles[source.X, source.Y].Piece = null;
         }
 
         public void UpdatePieces()
         {
-            /*foreach(ChessPiece p in Pieces)
+            foreach(ChessPiece p in Pieces)
             {
-                //p.UpdateLegalMoves(this);
-            }*/
+                p.UpdateLegalMoves(this);
+            }
         }
 
         public void Reset()

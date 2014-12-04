@@ -42,3 +42,4 @@ C:\Users\Gabi\Documents\Visual Studio 2013\Projects\GUI\GUI\bin\Debug\Assets\B_Q
 C:\Users\Gabi\Documents\Visual Studio 2013\Projects\GUI\GUI\bin\Debug\Assets\B_ROOK.png
 C:\Users\Gabi\Documents\Visual Studio 2013\Projects\GUI\GUI\obj\Debug\GUI_MarkupCompile.lref
 C:\Users\Gabi\Documents\Visual Studio 2013\Projects\GUI\GUI\bin\Debug\Assets\W_ROOK.png
+C:\Users\Gabi\Documents\Visual Studio 2013\Projects\GUI\GUI\obj\Debug\GeneratedInternalTypeHelper.g.cs
