@@ -8,23 +8,22 @@ using System.Threading.Tasks;
 namespace Chess.ViewModel
 {
     // This will be the class that feeds the GUI with information (i.e the data context) 
-    class ChessGameEngine
+    public class ChessGameEngine
     {
        private ChessBoard board;
        private RuleEngine rule_engine;
-       private Utils.Vec2 source;
+       //private Utils.Vec2 source;
        //private PlayerType next_player;
         
        //public event Func<PlayerType> e;
 
        public ChessGameEngine()
        { 
-          source = new Utils.Vec2();
+          //source = new Utils.Vec2();
           board = new ChessBoard();
           rule_engine = new ChessRuleEngine(board);
           //next_player = PlayerType.Human;
        }
-
 
        public ChessBoard Board
        {
@@ -34,12 +33,12 @@ namespace Chess.ViewModel
            }
        }
 
-       public void InitMove(Utils.Vec2 source)
+       /*public void InitMove(Utils.Vec2 source)
        {
            this.source = source;
-       }
+       }*/
 
-       public void MovePiece(Utils.Vec2 destination)
+       public void TryMovePiece(Utils.Vec2 source, Utils.Vec2 destination)
        {
            ChessPiece p = Board.GetPiece(source);
 

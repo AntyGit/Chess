@@ -23,7 +23,8 @@ namespace Chess
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ChessGameEngine engine;
+        private GUIPlayer human_player;
+        //private ChessGameEngine engine;
         private Rectangle selected_rectangle;
         private Rectangle piece_texture;
         bool piece_selected;
@@ -31,19 +32,26 @@ namespace Chess
         public MainWindow()
         {
             InitializeComponent();
-            engine = new ChessGameEngine();
-            this.DataContext = engine;
+            //engine = new ChessGameEngine();
+            //human_player = new GUIPlayer(engine);
+            
+            InitializeGame();
+            this.DataContext = human_player.Engine;
             selected_rectangle = null;
             piece_texture = null;
             piece_selected = false;
             DrawBoard();
         }
 
+        private void InitializeGame()
+        {
+            human_player = new GUIPlayer(new ChessGameEngine());
+        }
         //WIP: Maybe I should do this in design (xaml).
         private void DrawBoard()
         {
 
-           Square[,] tiles = engine.Board.Tiles;
+           Square[,] tiles = human_player.Board.Tiles;
 
             foreach(Chess.Model.Square t in tiles)
             {
@@ -88,7 +96,7 @@ namespace Chess
 
                     if (piece_selected == false)
                     {
-                        engine.InitMove(position);
+                        human_player.InitMove(position);
                         if(sender is Image)
                         { 
                             piece_selected = true;
@@ -100,7 +108,7 @@ namespace Chess
                     {
                         Rectangle r = sender as Rectangle;
 
-                        engine.MovePiece(position);
+                        human_player.MakeMove(position);
                         piece_selected = false;
                     }
 
@@ -110,7 +118,7 @@ namespace Chess
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
                 {
-                    engine.Board.Reset();
+                    //engine.ResetGame();
                 }
 
         

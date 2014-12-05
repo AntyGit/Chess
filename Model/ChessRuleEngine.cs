@@ -11,10 +11,7 @@ namespace Chess.Model
         private ChessBoard board;
 
         private readonly List<Utils.Vec2> pawn_moves;
-        private readonly List<Utils.Vec2> rook_moves;
-        private readonly List<Utils.Vec2> bishop_moves;
         private readonly List<Utils.Vec2> king_moves;
-        private readonly List<Utils.Vec2> queen_moves;
         private readonly List<Utils.Vec2> knight_moves;
 
         /*private readonly int pawn_reach = 1;
@@ -28,9 +25,10 @@ namespace Chess.Model
         {
             this.board = board;
 
-            pawn_moves = new List<Utils.Vec2>();
-            rook_moves = new List<Utils.Vec2>();
-            bishop_moves = new List<Utils.Vec2>();
+            pawn_moves = new List<Utils.Vec2>()
+            {
+
+            };
 
             king_moves = new List<Utils.Vec2>()
             {
@@ -38,8 +36,11 @@ namespace Chess.Model
                 new Utils.Vec2(1, 0),new Utils.Vec2(1, -1),new Utils.Vec2(0, -1),new Utils.Vec2(-1, -1)
             };
 
-            queen_moves = new List<Utils.Vec2>();
-            knight_moves = new List<Utils.Vec2>();
+            knight_moves = new List<Utils.Vec2>() 
+            { 
+                new Utils.Vec2(-2, -1),new Utils.Vec2(-1, -2),new Utils.Vec2(1, -2),new Utils.Vec2(-2, 2),
+                new Utils.Vec2(2, 1),new Utils.Vec2(1, 2),new Utils.Vec2(-1, 2),new Utils.Vec2(-2, 1)
+            };
         }
 
        public bool IsMoveValid(ChessPiece piece, Utils.Vec2 position)
@@ -136,13 +137,31 @@ namespace Chess.Model
 
            return moves;
        }
+
        private List<Utils.Vec2> Update(Knight knight)
        {
-           return new List<Utils.Vec2>();
+           List<Utils.Vec2> moves = new List<Utils.Vec2>();
+
+           foreach(Utils.Vec2 dir in knight_moves)
+           {
+               Utils.Vec2 dest = knight.Position + dir;
+
+               if (!board.OutOfBounds(dest))
+               {
+                   if (board.Tiles[dest.X, dest.Y].Piece == null)
+                     moves.Add(dest);
+                   else if(board.Tiles[dest.X, dest.Y].Piece != null && knight.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                     moves.Add(dest);
+               }
+           }
+           return moves;
        }
+
        private List<Utils.Vec2> Update(Bishop bishop)
        {
-           return new List<Utils.Vec2>();
+           List<Utils.Vec2> moves = new List<Utils.Vec2>();
+           return moves;
+
        }
        private List<Utils.Vec2> Update(Queen queen)
        {
