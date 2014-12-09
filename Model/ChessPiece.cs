@@ -17,6 +17,7 @@ namespace Chess.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Vec2 position;
+        bool has_moved;
         private PlayerType player;
         private PieceType type;
         protected List<Utils.Vec2> legal_moves;
@@ -25,6 +26,7 @@ namespace Chess.Model
         public ChessPiece(int x, int y,PieceType type,PlayerType player)
         {
             this.position = new Vec2(x, y);
+            this.has_moved = false;
             this.type = type;
             this.player = player;
             this.legal_moves = new List<Vec2>();
@@ -81,7 +83,16 @@ namespace Chess.Model
             set
             {
                 position = value;
+                has_moved = true;
                 NotifyPropertyChanged("Position");
+            }
+        }
+
+        public bool HasMoved
+        {
+            get
+            {
+                return has_moved;
             }
         }
 

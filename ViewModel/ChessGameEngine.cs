@@ -13,7 +13,7 @@ namespace Chess.ViewModel
        private ChessBoard board;
        private RuleEngine rule_engine;
        //private Utils.Vec2 source;
-       //private PlayerType next_player;
+       //private PlayerType active_player;
         
        //public event Func<PlayerType> e;
 

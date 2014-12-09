@@ -10,9 +10,14 @@ namespace Chess.Model
     {
         private ChessBoard board;
 
-        private readonly List<Utils.Vec2> pawn_moves;
+        private readonly List<Utils.Vec2> dark_pawn_moves;
+        private readonly List<Utils.Vec2> light_pawn_moves;
         private readonly List<Utils.Vec2> king_moves;
+        private readonly List<Utils.Vec2> rook_moves;
         private readonly List<Utils.Vec2> knight_moves;
+        private readonly List<Utils.Vec2> bishop_moves;
+        private readonly List<Utils.Vec2> queen_moves;
+
 
         /*private readonly int pawn_reach = 1;
         private readonly int rook_reach = 7;
@@ -21,13 +26,21 @@ namespace Chess.Model
         private readonly int queen_reach = 7;
         private readonly int knight_reach = 1;*/
 
+        private int move_reach = 0;
+
         public ChessRuleEngine(ChessBoard board)
         {
             this.board = board;
 
-            pawn_moves = new List<Utils.Vec2>()
+            dark_pawn_moves = new List<Utils.Vec2>()
             {
+                 new Utils.Vec2(0, -1),new Utils.Vec2(1, -1),new Utils.Vec2(-1, -1),new Utils.Vec2(0, -2)
+            };
 
+            light_pawn_moves = new List<Utils.Vec2>()
+            {
+               
+                new Utils.Vec2(0, 1), new Utils.Vec2(-1, 1),new Utils.Vec2(1, 1),new Utils.Vec2(0, 2)
             };
 
             king_moves = new List<Utils.Vec2>()
@@ -36,11 +49,29 @@ namespace Chess.Model
                 new Utils.Vec2(1, 0),new Utils.Vec2(1, -1),new Utils.Vec2(0, -1),new Utils.Vec2(-1, -1)
             };
 
+            rook_moves = new List<Utils.Vec2>()
+            {
+                new Utils.Vec2(-1, 0),new Utils.Vec2(0, 1),new Utils.Vec2(1, 0),new Utils.Vec2(0, -1)
+            };
+
             knight_moves = new List<Utils.Vec2>() 
             { 
                 new Utils.Vec2(-2, -1),new Utils.Vec2(-1, -2),new Utils.Vec2(1, -2),new Utils.Vec2(-2, 2),
                 new Utils.Vec2(2, 1),new Utils.Vec2(1, 2),new Utils.Vec2(-1, 2),new Utils.Vec2(-2, 1)
             };
+
+            bishop_moves = new List<Utils.Vec2>()
+            {
+                new Utils.Vec2(-1, 1),new Utils.Vec2(1, -1),new Utils.Vec2(1, 1),new Utils.Vec2(-1, -1)
+            };
+
+            queen_moves = new List<Utils.Vec2>()
+            {
+                new Utils.Vec2(-1, 0),new Utils.Vec2(0, 1),new Utils.Vec2(1, 0),new Utils.Vec2(0, -1),
+                new Utils.Vec2(-1, 1),new Utils.Vec2(1, -1),new Utils.Vec2(1, 1),new Utils.Vec2(-1, -1)
+            };
+
+
         }
 
        public bool IsMoveValid(ChessPiece piece, Utils.Vec2 position)
@@ -57,11 +88,38 @@ namespace Chess.Model
            }
        }
 
-       private List<Utils.Vec2> Update(Rook rook)
+       private List<Utils.Vec2> GetMoves(ChessPiece p,List<Utils.Vec2> directions)
        {
            List<Utils.Vec2> moves = new List<Utils.Vec2>();
 
-           for (int i = rook.Position.X + 1; i < board.Columns; ++i)
+           foreach(Utils.Vec2 dir in directions)
+           {
+               for(int i = 1; i <= move_reach; ++i)
+               {
+                   Utils.Vec2 dest = new Utils.Vec2(p.Position.X + (dir.X * i),p.Position.Y + (dir.Y * i));
+                   if(!board.OutOfBounds(dest))
+                   {
+                       if (board.Tiles[dest.X, dest.Y].Piece == null)
+                           moves.Add(dest);
+                       else if (board.Tiles[dest.X, dest.Y].Piece != null && p.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                       {
+                           moves.Add(dest);
+                           break;
+                       }
+                   }
+               }
+           }
+
+           
+           return moves;
+       }
+
+       private List<Utils.Vec2> Update(Rook rook)
+       {
+           move_reach = 7;
+           List<Utils.Vec2> moves = GetMoves(rook,rook_moves);
+
+           /*for (int i = rook.Position.X + 1; i < board.Columns; ++i)
            {
                if (board.Tiles[i, rook.Position.Y].Piece == null)
                {
@@ -73,8 +131,8 @@ namespace Chess.Model
                    if (board.Tiles[i, rook.Position.Y].Piece.Player != rook.Player)
                    {
                        moves.Add(new Utils.Vec2(i, rook.Position.Y));
-                       break;
                    }
+                   break;
                }
            }
 
@@ -90,8 +148,9 @@ namespace Chess.Model
                    if (board.Tiles[i, rook.Position.Y].Piece.Player != rook.Player)
                    {
                        moves.Add(new Utils.Vec2(i, rook.Position.Y));
-                       break;
                    }
+                   break;
+
                }
            }
 
@@ -107,8 +166,8 @@ namespace Chess.Model
                    if (board.Tiles[rook.Position.X, i].Piece.Player != rook.Player)
                    {
                        moves.Add(new Utils.Vec2(rook.Position.X, i));
-                       break;
                    }
+                   break;
                }
            }
 
@@ -124,16 +183,11 @@ namespace Chess.Model
                    if (board.Tiles[rook.Position.X, i].Piece.Player != rook.Player)
                    {
                        moves.Add(new Utils.Vec2(rook.Position.X, i));
-                       break;
                    }
 
-                   else
-                   {
-                       moves.Add(new Utils.Vec2(rook.Position.X, i - 1));
-                       break;
-                   }
+                   break;
                }
-           }
+           }*/
 
            return moves;
        }
@@ -159,27 +213,68 @@ namespace Chess.Model
 
        private List<Utils.Vec2> Update(Bishop bishop)
        {
-           List<Utils.Vec2> moves = new List<Utils.Vec2>();
+           move_reach = 7;
+           List<Utils.Vec2> moves = GetMoves(bishop,bishop_moves);
            return moves;
 
        }
        private List<Utils.Vec2> Update(Queen queen)
        {
-           return new List<Utils.Vec2>();
+           move_reach = 7;
+           List<Utils.Vec2> moves = GetMoves(queen, queen_moves);
+           return moves;
        }
        private List<Utils.Vec2> Update(Pawn pawn)
        {
            List<Utils.Vec2> moves = new List<Utils.Vec2>();
+           List<Utils.Vec2> movement_vectors;
+           List<Utils.Vec2> forbidden_moves = new List<Utils.Vec2>();
+           move_reach = 1;
 
            if (pawn.Player == PlayerType.Human)
            {
-               moves.Add( new Utils.Vec2(pawn.Position.X, pawn.Position.Y + 1));
+               movement_vectors = new List<Utils.Vec2> (light_pawn_moves);
            }
 
            else
+               movement_vectors =  new List<Utils.Vec2> (dark_pawn_moves);
+
+           if (pawn.HasMoved)
            {
-               moves.Add(new Utils.Vec2(pawn.Position.X, pawn.Position.Y - 1));
+               movement_vectors.RemoveAt(movement_vectors.Count - 1);
            }
+
+           moves = GetMoves(pawn,movement_vectors);
+
+           foreach(Utils.Vec2 point in moves)
+           {
+
+               if(pawn.Position.X != point.X)
+               {
+                   if(board.Tiles[point.X,point.Y].Piece == null)
+                   {
+                       forbidden_moves.Add(point);
+                   }
+               }
+           }
+
+           foreach (Utils.Vec2 point in forbidden_moves)
+           {
+               moves.Remove(point);
+           }
+
+           /*for (int i = 0; i < 4; ++i )
+           {
+               Utils.Vec2 dest = pawn.Position + movement_vectors.ElementAt(i);
+
+               if (!board.OutOfBounds(dest))
+               {
+                   if (board.Tiles[dest.X, dest.Y].Piece == null)
+                       moves.Add(dest);
+                   else if (board.Tiles[dest.X, dest.Y].Piece != null && pawn.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                       moves.Add(dest);
+               }
+           }*/
 
            return moves;
        }
