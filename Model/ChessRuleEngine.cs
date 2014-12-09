@@ -18,7 +18,6 @@ namespace Chess.Model
         private readonly List<Utils.Vec2> bishop_moves;
         private readonly List<Utils.Vec2> queen_moves;
 
-
         /*private readonly int pawn_reach = 1;
         private readonly int rook_reach = 7;
         private readonly int bishop_reach = 7;
@@ -32,14 +31,13 @@ namespace Chess.Model
         {
             this.board = board;
 
-            dark_pawn_moves = new List<Utils.Vec2>()
+            light_pawn_moves = new List<Utils.Vec2>()
             {
                  new Utils.Vec2(0, -1),new Utils.Vec2(1, -1),new Utils.Vec2(-1, -1),new Utils.Vec2(0, -2)
             };
 
-            light_pawn_moves = new List<Utils.Vec2>()
+            dark_pawn_moves = new List<Utils.Vec2>()
             {
-               
                 new Utils.Vec2(0, 1), new Utils.Vec2(-1, 1),new Utils.Vec2(1, 1),new Utils.Vec2(0, 2)
             };
 
@@ -110,7 +108,6 @@ namespace Chess.Model
                }
            }
 
-           
            return moves;
        }
 

@@ -13,7 +13,7 @@ namespace Chess.Model
             : base(x, y, PieceType.Pawn, player)
             {
 
-                if(player == PlayerType.Human)
+                if(player == PlayerType.AI)
                 {
                     legal_moves.Add(new Utils.Vec2(x, y + 1));
                     legal_moves.Add(new Utils.Vec2(x, y + 2));

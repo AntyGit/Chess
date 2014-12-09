@@ -47,7 +47,7 @@ namespace Chess
         {
             human_player = new GUIPlayer(new ChessGameEngine());
         }
-        //WIP: Maybe I should do this in design (xaml).
+
         private void DrawBoard()
         {
 
@@ -67,12 +67,9 @@ namespace Chess
                 //r.MouseLeave += r_MouseLeave;
                 tile_grid.Children.Add(r);
             }
-            
-
         }
      
-
-                void HighlightBorder(Rectangle r)
+        void HighlightBorder(Rectangle r)
                 {
                     if (r != selected_rectangle && selected_rectangle != null)
                     {
@@ -84,7 +81,7 @@ namespace Chess
                     r.Stroke = new SolidColorBrush(Colors.Crimson);
                 }
 
-                void Piece_MouseDown(object sender, MouseButtonEventArgs e)
+        void Piece_MouseDown(object sender, MouseButtonEventArgs e)
                 {
                     System.Windows.Point p = e.GetPosition(tile_grid);
                     int tile_width = (int)(tile_grid.RenderSize.Width / tile_grid.Columns);
@@ -92,7 +89,7 @@ namespace Chess
 
                     Utils.Vec2 position = new Utils.Vec2((int)(p.X / tile_width), (int)(p.Y / tile_height));
 
-                    Console.WriteLine(position.X +" " +position.Y);
+                    Console.WriteLine(position.X +" "+position.Y);
 
                     if (piece_selected == false)
                     {
@@ -112,17 +109,13 @@ namespace Chess
                         piece_selected = false;
                     }
 
-
                 }
-
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
                 {
                     //engine.ResetGame();
                 }
-
-        
-        
+ 
     }
 }
 
