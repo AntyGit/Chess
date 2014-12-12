@@ -6,10 +6,35 @@ using System.Threading.Tasks;
 
 namespace Chess.ViewModel
 {
-    public interface Player
+    public abstract class Player
     {
-        void InitMove(Utils.Vec2 source);
-        void MakeMove(Utils.Vec2 destination);
- 
+        private ChessGameEngine engine;
+        private Model.PlayerType type;
+
+        public Player(ChessGameEngine engine, Model.PlayerType type )
+        {
+            this.engine = engine;
+            this.type = type;
+        }
+
+        public abstract void InitMove(Utils.Vec2 source);
+        public abstract void MakeMove(Utils.Vec2 destination);
+
+
+        public ChessGameEngine Engine
+        {
+            get
+            {
+                return engine;
+            }
+        }
+
+        public Model.PlayerType PlayerType
+        {
+            get
+            {
+                return type;
+            }
+        }
     }
 }

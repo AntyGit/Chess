@@ -12,17 +12,15 @@ namespace Chess.ViewModel
     {
        private ChessBoard board;
        private RuleEngine rule_engine;
-       //private Utils.Vec2 source;
-       //private PlayerType active_player;
-        
-       //public event Func<PlayerType> e;
-
+       private PlayerType active_player;
+       private Player light_player;
+       private AIPlayer dark_player;
+       
        public ChessGameEngine()
        { 
-          //source = new Utils.Vec2();
           board = new ChessBoard();
           rule_engine = new ChessRuleEngine(board);
-          //next_player = PlayerType.Human;
+          active_player = PlayerType.Human;
        }
 
        public ChessBoard Board
@@ -38,21 +36,59 @@ namespace Chess.ViewModel
            this.source = source;
        }*/
 
-       public void TryMovePiece(Utils.Vec2 source, Utils.Vec2 destination)
+       public bool TryMovePiece(Utils.Vec2 source, Utils.Vec2 destination)
        {
            ChessPiece p = Board.GetPiece(source);
 
-           if (p.Player == PlayerType.Human)
+           if (p.Player == active_player)
            {
-               if(rule_engine.IsMoveValid(p,destination))
+               if (rule_engine.IsMoveValid(p, destination))
                {
                    if (!source.Equals(destination))
                    {
                        p.Position = destination;
                        Board.UpdateTiles(source, destination);
                        rule_engine.UpdateRules();
+                       SwitchTurn();
+                       return true;
                    }
+                   return false;
                }
+               return false;
+           }
+
+           else
+               return false;
+       }
+
+       private void SwitchTurn()
+       {
+           if(active_player == light_player.PlayerType)
+           {
+               active_player = dark_player.PlayerType;
+               dark_player.PlanMove();
+           }
+
+           else
+           {
+               active_player = light_player.PlayerType;
+           }
+       }
+
+       public ViewModel.Player LightPlayer
+       {
+           set
+           {
+               this.light_player = value;
+           }
+       }
+
+
+       public ViewModel.AIPlayer DarkPlayer
+       {
+           set
+           {
+               this.dark_player = value;
            }
        }
 

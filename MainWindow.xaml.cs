@@ -24,7 +24,7 @@ namespace Chess
     public partial class MainWindow : Window
     {
         private GUIPlayer human_player;
-        //private ChessGameEngine engine;
+        private ChessGameEngine engine;
         private Rectangle selected_rectangle;
         private Rectangle piece_texture;
         bool piece_selected;
@@ -36,7 +36,7 @@ namespace Chess
             //human_player = new GUIPlayer(engine);
             
             InitializeGame();
-            this.DataContext = human_player.Engine;
+            this.DataContext = engine;
             selected_rectangle = null;
             piece_texture = null;
             piece_selected = false;
@@ -45,7 +45,11 @@ namespace Chess
 
         private void InitializeGame()
         {
-            human_player = new GUIPlayer(new ChessGameEngine());
+            engine = new ChessGameEngine();
+            human_player = new GUIPlayer(engine);
+            AIPlayer ai_player = new AIPlayer(engine);
+            engine.LightPlayer = human_player;
+            engine.DarkPlayer = ai_player;
         }
 
         private void DrawBoard()

@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace Chess.ViewModel
 {
-    public class GUIPlayer : Player
+    public class AIPlayer : Player
     {
         private Utils.Vec2 source;
 
-        public GUIPlayer(ChessGameEngine engine): base(engine,Model.PlayerType.Human)
+        public AIPlayer(ChessGameEngine engine):base(engine,Model.PlayerType.AI)
         {
+        }
+
+        public void PlanMove()
+        {
+            InitMove(new Utils.Vec2(7, 1));
+            Utils.Vec2 dest = new Utils.Vec2(7, 3);
+            MakeMove(dest);
         }
 
         public override void InitMove(Utils.Vec2 source)
@@ -24,13 +31,6 @@ namespace Chess.ViewModel
             Engine.TryMovePiece(source,destination);
         }
 
-        public Model.ChessBoard Board
-        {
-            get
-            {
-                return Engine.Board;
-            }
-        }
 
 
     }
