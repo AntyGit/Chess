@@ -9,6 +9,7 @@ namespace Chess.ViewModel
     public class AIPlayer : Player
     {
         private Utils.Vec2 source;
+        private List<Model.ChessPiece> ai_pieces;
 
         public AIPlayer(ChessGameEngine engine):base(engine,Model.PlayerType.AI)
         {
@@ -16,9 +17,21 @@ namespace Chess.ViewModel
 
         public void PlanMove()
         {
-            InitMove(new Utils.Vec2(7, 1));
-            Utils.Vec2 dest = new Utils.Vec2(7, 3);
-            MakeMove(dest);
+            Random rnd = new Random();
+            bool success = false;
+
+            while(!success)
+            {
+                Model.ChessPiece move_piece = ai_pieces.ElementAt(rnd.Next(0, ai_pieces.Count));
+                InitMove(move_piece.Position);
+                if(move_piece.LegalMoves.Count > 0)
+                {
+                    Utils.Vec2 dest = move_piece.LegalMoves.ElementAt(rnd.Next(0, move_piece.LegalMoves.Count));
+                    System.Threading.Thread.Sleep(500);
+                    MakeMove(dest);
+                    break;
+                }
+            }
         }
 
         public override void InitMove(Utils.Vec2 source)
@@ -31,7 +44,13 @@ namespace Chess.ViewModel
             Engine.TryMovePiece(source,destination);
         }
 
-
+        public List<Model.ChessPiece> Pieces
+        {
+            set
+            {
+                this.ai_pieces = value;
+            }
+        }
 
     }
 }

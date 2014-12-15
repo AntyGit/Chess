@@ -22,8 +22,9 @@ namespace Chess.Model
         private PieceType type;
         protected List<Utils.Vec2> legal_moves;
         protected readonly List<Utils.Vec2> direction_vectors;
+        private int value;
 
-        public ChessPiece(int x, int y,PieceType type,PlayerType player)
+        public ChessPiece(int x, int y,PieceType type,PlayerType player, int value)
         {
             this.position = new Vec2(x, y);
             this.has_moved = false;
@@ -31,6 +32,7 @@ namespace Chess.Model
             this.player = player;
             this.legal_moves = new List<Vec2>();
             this.direction_vectors = new List<Vec2>();
+            this.value = value;
         }
 
         public PieceType PieceType
@@ -95,9 +97,6 @@ namespace Chess.Model
                 return has_moved;
             }
         }
-
-        public abstract void UpdateLegalMoves(ChessBoard board);
-
 
         //Publish an event (a property changed). This is called by set method of propreties
         //[CallerMemberName] causes the name of the property that calls this method to substituted as an argument.

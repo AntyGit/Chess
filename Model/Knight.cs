@@ -9,12 +9,9 @@ namespace Chess.Model
     public class Knight : ChessPiece
     {
         public Knight(int x, int y, PlayerType player)
-            : base(x, y, PieceType.Knight, player)
+            : base(x, y, PieceType.Knight, player,3)
         { }
 
-        public override void UpdateLegalMoves(ChessBoard board)
-        {
-            //throw new NotImplementedException();
-        }
+       
     }
 }

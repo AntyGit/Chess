@@ -10,6 +10,7 @@ namespace Chess.ViewModel
     // This will be the class that feeds the GUI with information (i.e the data context) 
     public class ChessGameEngine
     {
+       private bool initialized;
        private ChessBoard board;
        private RuleEngine rule_engine;
        private PlayerType active_player;
@@ -18,11 +19,20 @@ namespace Chess.ViewModel
        
        public ChessGameEngine()
        { 
-          board = new ChessBoard();
+          board = new ChessBoard(this);
           rule_engine = new ChessRuleEngine(board);
-          active_player = PlayerType.Human;
+          initialized = false;
        }
 
+       public void InitializeGame(Player white, Player black)
+       {
+           light_player = white;
+           dark_player = (AIPlayer)black;
+           active_player = PlayerType.Human;
+           board.InitLightPieces();
+           board.InitDarkPieces();
+           initialized = true;
+       }
        public ChessBoard Board
        {
          get
@@ -40,7 +50,7 @@ namespace Chess.ViewModel
        {
            ChessPiece p = Board.GetPiece(source);
 
-           if (p.Player == active_player)
+           if (initialized && p.Player == active_player)
            {
                if (rule_engine.IsMoveValid(p, destination))
                {
@@ -86,6 +96,11 @@ namespace Chess.ViewModel
 
        public ViewModel.AIPlayer DarkPlayer
        {
+           get
+           {
+               return dark_player;
+           }
+
            set
            {
                this.dark_player = value;

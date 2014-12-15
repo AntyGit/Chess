@@ -104,6 +104,9 @@ namespace Chess.Model
                            moves.Add(dest);
                            break;
                        }
+
+                       else if (board.Tiles[dest.X, dest.Y].Piece != null && p.Player == board.Tiles[dest.X, dest.Y].Piece.Player)
+                           break;
                    }
                }
            }

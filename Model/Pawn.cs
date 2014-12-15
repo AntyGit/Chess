@@ -10,7 +10,7 @@ namespace Chess.Model
     {
 
         public Pawn(int x, int y, PlayerType player)
-            : base(x, y, PieceType.Pawn, player)
+            : base(x, y, PieceType.Pawn, player,1)
             {
 
                 if(player == PlayerType.AI)
@@ -26,19 +26,6 @@ namespace Chess.Model
                 }
                 
             }
-
-        public override void UpdateLegalMoves(ChessBoard board)
-        {
-            if (Player == PlayerType.Human)
-            {
-                legal_moves[0] = new Utils.Vec2(Position.X, Position.Y + 1);
-            }
-
-            else
-            {
-                legal_moves[0] = new Utils.Vec2(Position.X, Position.Y - 1);
-            }
-        }
 
     }
 }

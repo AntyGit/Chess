@@ -64,6 +64,7 @@
     <Compile Include="Model\RuleEngine.cs" />
     <Compile Include="Model\Square.cs" />
     <Compile Include="Utils\DataTypeConverter.cs" />
+    <Compile Include="ViewModel\AIPlayer.cs" />
     <Compile Include="ViewModel\ChessGameEngine.cs" />
     <Compile Include="ViewModel\GUIPlayer.cs" />
     <Compile Include="ViewModel\Player.cs" />

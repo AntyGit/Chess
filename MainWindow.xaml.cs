@@ -48,8 +48,7 @@ namespace Chess
             engine = new ChessGameEngine();
             human_player = new GUIPlayer(engine);
             AIPlayer ai_player = new AIPlayer(engine);
-            engine.LightPlayer = human_player;
-            engine.DarkPlayer = ai_player;
+            engine.InitializeGame(human_player, ai_player);
         }
 
         private void DrawBoard()
