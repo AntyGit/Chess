@@ -177,6 +177,7 @@
         
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="{Binding ActualHeight, ElementName=ResetButton, Mode=OneWay}">
             <Button x:Name="ResetButton" Content="Reset&#xA;" Margin="0,0,1195,0" Click="ResetButton_Click" Height="25" VerticalAlignment="Center" />
+            <Label Content="Label"/>
         </StackPanel>
     </Grid>
 </Window>

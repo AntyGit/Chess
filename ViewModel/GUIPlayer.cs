@@ -21,7 +21,7 @@ namespace Chess.ViewModel
 
         public override void MakeMove(Utils.Vec2 destination)
         {
-            Engine.TryMovePiece(source,destination);
+            Engine.MovePiece(source,destination);
         }
 
         public Model.ChessBoard Board

@@ -54,7 +54,7 @@ namespace Chess.Model
 
             knight_moves = new List<Utils.Vec2>() 
             { 
-                new Utils.Vec2(-2, -1),new Utils.Vec2(-1, -2),new Utils.Vec2(1, -2),new Utils.Vec2(-2, 2),
+                new Utils.Vec2(-2, -1),new Utils.Vec2(-1, -2),new Utils.Vec2(1, -2),new Utils.Vec2(2, -1),
                 new Utils.Vec2(2, 1),new Utils.Vec2(1, 2),new Utils.Vec2(-1, 2),new Utils.Vec2(-2, 1)
             };
 

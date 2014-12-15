@@ -41,12 +41,27 @@ namespace Chess.ViewModel
            }
        }
 
-       /*public void InitMove(Utils.Vec2 source)
+       public int TryMove(Utils.Vec2 source, Utils.Vec2 destination)
        {
-           this.source = source;
-       }*/
+          ChessPiece p = Board.GetPiece(source);
 
-       public bool TryMovePiece(Utils.Vec2 source, Utils.Vec2 destination)
+                   if (!source.Equals(destination))
+                   {
+                      ChessPiece dest_piece = Board.GetPiece(destination);
+                       
+                       if(dest_piece != null)
+                           return dest_piece.Value;
+                       else
+                           return 0;
+                   }
+
+                   else
+                   {
+                       return 0;
+                   }
+       }
+
+       public bool MovePiece(Utils.Vec2 source, Utils.Vec2 destination)
        {
            ChessPiece p = Board.GetPiece(source);
 
@@ -76,7 +91,8 @@ namespace Chess.ViewModel
            if(active_player == light_player.PlayerType)
            {
                active_player = dark_player.PlayerType;
-               dark_player.PlanMove();
+               System.Threading.Thread worker_thread = new System.Threading.Thread(dark_player.PlanMove);
+               worker_thread.Start();
            }
 
            else

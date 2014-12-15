@@ -90,6 +90,14 @@ namespace Chess.Model
             }
         }
 
+        public int Value
+        {
+            get
+            {
+                return value;
+            }
+        }
+
         public bool HasMoved
         {
             get

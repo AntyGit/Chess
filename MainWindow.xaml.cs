@@ -110,6 +110,7 @@ namespace Chess
 
                         human_player.MakeMove(position);
                         piece_selected = false;
+                        //System.Threading.Thread.Sleep(500);
                     }
 
                 }
