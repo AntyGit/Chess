@@ -86,6 +86,58 @@ namespace Chess.Model
            }
        }
 
+       public bool TestCheckMove(ChessPiece piece , Utils.Vec2 pos)
+       {
+           var pieces = board.Pieces.ToList();
+
+           
+
+
+
+           /*board2[i, j] = board2[a, b];
+           board2[a, b] = new Blank();*/
+
+           
+
+           //ta fram kungens pos.
+
+           //för alla motståndarpjäser
+                //kolla om dom kan gå till kungen.
+                    //sant -> return true (det är chack)
+
+
+            PlayerType opponent;
+            PlayerType side = piece.Player;
+
+            if (side == PlayerType.Human)
+                opponent = PlayerType.AI;
+            else
+                opponent = PlayerType.Human;
+
+
+            List<ChessPiece> player_pieces = board.GetPlayersPieces(opponent);
+
+            foreach (ChessPiece p in pieces)
+            {
+                if (p.GetType() == typeof(Pawn))
+                {
+
+                    if ((p.Position.X == pos.X - 1 || p.Position.X == pos.X + 1))
+                    {
+                        if (p.Player == PlayerType.AI && (p.Position.Y == pos.Y - 1) || p.Player == PlayerType.Human && (p.Position.Y == pos.Y + 1))
+                            return true;
+                    }
+                }
+
+                else if (p.LegalMoves.Contains(pos))
+                {
+                    return true;
+                }
+
+            }
+            return false;
+       }
+
        private List<Utils.Vec2> GetMoves(ChessPiece p,List<Utils.Vec2> directions)
        {
            List<Utils.Vec2> moves = new List<Utils.Vec2>();
@@ -111,7 +163,7 @@ namespace Chess.Model
                }
            }
 
-           moves.Remove(p.Position);
+           //moves.Remove(p.Position);
 
            return moves;
        }

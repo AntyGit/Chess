@@ -13,7 +13,7 @@ namespace Chess.ViewModel
        private bool initialized;
        private bool game_over;
        private ChessBoard board;
-       private RuleEngine rule_engine;
+       private ChessRuleEngine rule_engine;
        private PlayerType active_player;
        private Player light_player;
        private AIPlayer dark_player;
@@ -70,7 +70,8 @@ namespace Chess.ViewModel
 
            if (initialized && !game_over && p.Player == active_player)
            {
-               if (rule_engine.IsMoveValid(p, destination))
+               rule_engine.UpdateRules();
+               if (rule_engine.IsMoveValid(p, destination) && !rule_engine.TestCheckMove(p,destination) )
                {
                    if (!source.Equals(destination))
                    {
@@ -78,8 +79,8 @@ namespace Chess.ViewModel
                        Board.UpdateTiles(source, destination);
                        rule_engine.UpdateRules();
                        //Check if a player has been checked or check mate
-                       if(p.GetType() == typeof(King))
-                            UpdatePlayerStatus(p);
+                       UpdatePlayerStatus();
+                       
                        SwitchTurn();
                        return true;
                    }
@@ -92,27 +93,37 @@ namespace Chess.ViewModel
                return false;
        }
 
-       private void UpdatePlayerStatus(ChessPiece p)
+       private void UpdatePlayerStatus()
        {
-           Player player;
 
-           if (p.Player == light_player.PlayerType)
-               player = light_player;
-           else
-               player = dark_player;
+           ChessPiece light_king = board.GetKing(light_player.PlayerType);
+           ChessPiece dark_king = board.GetKing(dark_player.PlayerType);
 
-          if(board.ReachableFrom(p.Position,p.Player))
+          if (light_king != null && board.ReachableFrom(light_king.Position, light_king.Player))
           {
-              player.Check = true;
+              light_player.Check = true;
 
-              if (p.LegalMoves.Count == 0)
+              if (light_king.LegalMoves.Count == 0)
               {
-                  player.CheckMate = true;
+                  light_player.CheckMate = true;
                   game_over = true;
               }
 
- 
           }
+
+
+          else if (dark_king != null && board.ReachableFrom(dark_king.Position, dark_king.Player))
+           {
+               dark_player.Check = true;
+
+               if (dark_king.LegalMoves.Count == 0)
+               {
+                   dark_player.CheckMate = true;
+                   game_over = true;
+               }
+
+
+           }
 
        }
 
@@ -132,6 +143,12 @@ namespace Chess.ViewModel
                active_player = light_player.PlayerType;
            }
        }
+
+       /*public void SerializeGame()
+       {
+           System.Xml.Serialization.XmlSerializer serializer = new
+
+       }*/
 
        public ViewModel.Player LightPlayer
        {

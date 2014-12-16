@@ -117,6 +117,8 @@ namespace Chess.Model
             tiles[4,rows - 1].Piece = new King(4, rows - 1, PlayerType.Human);
             pieces.Add(tiles[4,rows - 1].Piece);
 
+            /*tiles[4, 3].Piece = new King(4, 3, PlayerType.Human);
+            pieces.Add(tiles[4,3].Piece);*/
 
             tiles[5,rows - 1].Piece = new Bishop(5, rows - 1, PlayerType.Human);
             pieces.Add(tiles[5,rows - 1].Piece);
@@ -168,6 +170,10 @@ namespace Chess.Model
             tiles[5, 0].Piece = new Bishop(5, 0, PlayerType.AI);
             pieces.Add(tiles[5, 0].Piece);
             ai_pieces.Add(tiles[5, 0].Piece);
+
+            /*tiles[3, 5].Piece = new Bishop(3, 5, PlayerType.AI);
+            pieces.Add(tiles[3, 5].Piece);
+            ai_pieces.Add(tiles[3, 5].Piece);*/
 
             tiles[6, 0].Piece = new Knight(6, 0, PlayerType.AI);
             pieces.Add(tiles[6, 0].Piece);
