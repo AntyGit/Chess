@@ -76,8 +76,10 @@ namespace Chess.ViewModel
                    {
                        p.Position = destination;
                        Board.UpdateTiles(source, destination);
-                       //Check if a player has been checked or check mate
                        rule_engine.UpdateRules();
+                       //Check if a player has been checked or check mate
+                       if(p.GetType() == typeof(King))
+                            UpdatePlayerStatus(p);
                        SwitchTurn();
                        return true;
                    }
@@ -89,6 +91,31 @@ namespace Chess.ViewModel
            else
                return false;
        }
+
+       private void UpdatePlayerStatus(ChessPiece p)
+       {
+           Player player;
+
+           if (p.Player == light_player.PlayerType)
+               player = light_player;
+           else
+               player = dark_player;
+
+          if(board.ReachableFrom(p.Position,p.Player))
+          {
+              player.Check = true;
+
+              if (p.LegalMoves.Count == 0)
+              {
+                  player.CheckMate = true;
+                  game_over = true;
+              }
+
+ 
+          }
+
+       }
+
 
        private void SwitchTurn()
        {

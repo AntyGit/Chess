@@ -99,7 +99,7 @@ namespace Chess.Model
                    {
                        if (board.Tiles[dest.X, dest.Y].Piece == null)
                            moves.Add(dest);
-                       else if (board.Tiles[dest.X, dest.Y].Piece.GetType() != typeof(King) && p.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                       else if (board.Tiles[dest.X, dest.Y].Piece != null && p.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
                        {
                            moves.Add(dest);
                            break;
@@ -116,27 +116,6 @@ namespace Chess.Model
            return moves;
        }
 
-       public bool ReachableFrom(Utils.Vec2 pos, PlayerType side)
-       {
-           PlayerType opponent;
-
-           if(side == PlayerType.Human)
-               opponent = PlayerType.AI;
-           else
-               opponent = PlayerType.Human;
-
-
-           List<ChessPiece> pieces = board.GetPlayersPieces(opponent);
-
-           foreach(ChessPiece p in pieces)
-           {
-               if(p.LegalMoves.Contains(pos))
-               {
-                   return true;
-               }
-           }
-           return false;
-       }
        
        private List<Utils.Vec2> Update(Rook rook)
        {
@@ -228,7 +207,7 @@ namespace Chess.Model
                {
                    if (board.Tiles[dest.X, dest.Y].Piece == null)
                      moves.Add(dest);
-                   else if(board.Tiles[dest.X, dest.Y].Piece.GetType() != typeof(King) && knight.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                   else if (board.Tiles[dest.X, dest.Y].Piece != null && knight.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
                      moves.Add(dest);
                }
            }
@@ -242,12 +221,14 @@ namespace Chess.Model
            return moves;
 
        }
+
        private List<Utils.Vec2> Update(Queen queen)
        {
            move_reach = 7;
            List<Utils.Vec2> moves = GetMoves(queen, queen_moves);
            return moves;
        }
+
        private List<Utils.Vec2> Update(Pawn pawn)
        {
            List<Utils.Vec2> moves = new List<Utils.Vec2>();
@@ -337,11 +318,11 @@ namespace Chess.Model
 
                if (!board.OutOfBounds(dest))
                {
-                   bool reachable = ReachableFrom(dest,king.Player);
+                   bool reachable = board.ReachableFrom(dest,king.Player);
 
-                   if (board.Tiles[dest.X, dest.Y].Piece == null && !reachable)
+                   if (board.Tiles[dest.X, dest.Y].Piece == null && reachable == false)
                        moves.Add(dest);
-                   else if (board.Tiles[dest.X, dest.Y].Piece != null && board.Tiles[dest.X, dest.Y].Piece.GetType() != typeof(King) && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player && !reachable)
+                   else if (board.Tiles[dest.X, dest.Y].Piece != null && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player && reachable == false)
                        moves.Add(dest);
                }
            }

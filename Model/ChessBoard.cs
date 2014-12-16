@@ -185,6 +185,18 @@ namespace Chess.Model
             return tiles[position.X, position.Y].Piece;
         }
 
+        public ChessPiece GetKing(PlayerType player)
+        {
+            foreach(ChessPiece p in pieces)
+            {
+                if(p.GetType() == typeof(King) && p.Player == player)
+                    return p;
+
+            }
+
+            return null;
+        }
+
         public List<ChessPiece> GetPlayersPieces(PlayerType t)
         {
             List<ChessPiece> player_pieces = new List<ChessPiece>();
@@ -204,6 +216,58 @@ namespace Chess.Model
         {
             return position.X > columns-1 || position.X < 0 || position.Y > rows-1 || position.Y < 0;
         }
+
+        public bool ReachableFrom(Utils.Vec2 pos, PlayerType side)
+        {
+            PlayerType opponent;
+
+            if (side == PlayerType.Human)
+                opponent = PlayerType.AI;
+            else
+                opponent = PlayerType.Human;
+
+
+            List<ChessPiece> pieces = GetPlayersPieces(opponent);
+
+            foreach (ChessPiece p in pieces)
+            {
+                //Pawn pawn = p as Pawn;
+
+                /*if(p.GetType() == typeof(Pawn))
+                {
+                    Pawn pawn = p as Pawn;
+                    if(pawn.Position.X != pos.X && pawn.LegalMoves.Contains(pos))
+                    {
+                        return true;
+                    }
+
+                    else
+                        return false;
+                }
+
+                else if(p.LegalMoves.Contains(pos))
+                {
+                    return true;
+                }*/
+                if (p.GetType() == typeof(Pawn))
+                {
+
+                    if ((p.Position.X == pos.X - 1 || p.Position.X == pos.X + 1))
+                    {
+                        if (p.Player == PlayerType.AI && (p.Position.Y == pos.Y - 1) || p.Player == PlayerType.Human && (p.Position.Y == pos.Y + 1))
+                            return true;
+                    }
+                }
+
+                else if (p.LegalMoves.Contains(pos))
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+       
 
         public void UpdateTiles(Utils.Vec2 source, Utils.Vec2 destination)
         {

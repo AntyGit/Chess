@@ -40,5 +40,29 @@ namespace Chess.ViewModel
                 return type;
             }
         }
+
+        public bool Check
+        {
+            get
+            {
+                return check;
+            }
+            set
+            {
+                check = value;
+            }
+        }
+
+        public bool CheckMate
+        {
+            get
+            {
+                return check_mate;
+            }
+            set
+            {
+                check_mate = value;
+            }
+        }
     }
 }
