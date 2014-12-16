@@ -11,6 +11,7 @@ namespace Chess.ViewModel
     public class ChessGameEngine
     {
        private bool initialized;
+       private bool game_over;
        private ChessBoard board;
        private RuleEngine rule_engine;
        private PlayerType active_player;
@@ -31,7 +32,9 @@ namespace Chess.ViewModel
            active_player = PlayerType.Human;
            board.InitLightPieces();
            board.InitDarkPieces();
+           rule_engine.UpdateRules();
            initialized = true;
+           game_over = false;
        }
        public ChessBoard Board
        {
@@ -65,7 +68,7 @@ namespace Chess.ViewModel
        {
            ChessPiece p = Board.GetPiece(source);
 
-           if (initialized && p.Player == active_player)
+           if (initialized && !game_over && p.Player == active_player)
            {
                if (rule_engine.IsMoveValid(p, destination))
                {
@@ -73,6 +76,7 @@ namespace Chess.ViewModel
                    {
                        p.Position = destination;
                        Board.UpdateTiles(source, destination);
+                       //Check if a player has been checked or check mate
                        rule_engine.UpdateRules();
                        SwitchTurn();
                        return true;
@@ -91,8 +95,9 @@ namespace Chess.ViewModel
            if(active_player == light_player.PlayerType)
            {
                active_player = dark_player.PlayerType;
-               System.Threading.Thread worker_thread = new System.Threading.Thread(dark_player.PlanMove);
-               worker_thread.Start();
+               dark_player.PlanMove();
+               //System.Threading.Thread worker_thread = new System.Threading.Thread(dark_player.PlanMove);
+               //worker_thread.Start();
            }
 
            else

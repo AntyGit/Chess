@@ -8,6 +8,8 @@ namespace Chess.ViewModel
 {
     public abstract class Player
     {
+        private bool check;
+        private bool check_mate;
         private ChessGameEngine engine;
         private Model.PlayerType type;
 
@@ -15,6 +17,8 @@ namespace Chess.ViewModel
         {
             this.engine = engine;
             this.type = type;
+            check = false;
+            check_mate = false;
         }
 
         public abstract void InitMove(Utils.Vec2 source);

@@ -185,6 +185,21 @@ namespace Chess.Model
             return tiles[position.X, position.Y].Piece;
         }
 
+        public List<ChessPiece> GetPlayersPieces(PlayerType t)
+        {
+            List<ChessPiece> player_pieces = new List<ChessPiece>();
+
+            foreach(ChessPiece p in pieces)
+            {
+                if(p.Player == t)
+                {
+                    player_pieces.Add(p);
+                }
+            }
+
+            return player_pieces;
+        }
+
         public bool OutOfBounds(Utils.Vec2 position)
         {
             return position.X > columns-1 || position.X < 0 || position.Y > rows-1 || position.Y < 0;
@@ -200,7 +215,7 @@ namespace Chess.Model
                 int index = pieces.IndexOf(p);
                 if(index != -1)
                 {
-                    pieces.Remove(pieces.ElementAt(index));
+                    pieces.RemoveAt(index);
 
                 }
             }

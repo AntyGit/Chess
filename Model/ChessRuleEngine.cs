@@ -99,7 +99,7 @@ namespace Chess.Model
                    {
                        if (board.Tiles[dest.X, dest.Y].Piece == null)
                            moves.Add(dest);
-                       else if (board.Tiles[dest.X, dest.Y].Piece != null && p.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                       else if (board.Tiles[dest.X, dest.Y].Piece.GetType() != typeof(King) && p.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
                        {
                            moves.Add(dest);
                            break;
@@ -111,9 +111,33 @@ namespace Chess.Model
                }
            }
 
+           moves.Remove(p.Position);
+
            return moves;
        }
 
+       public bool ReachableFrom(Utils.Vec2 pos, PlayerType side)
+       {
+           PlayerType opponent;
+
+           if(side == PlayerType.Human)
+               opponent = PlayerType.AI;
+           else
+               opponent = PlayerType.Human;
+
+
+           List<ChessPiece> pieces = board.GetPlayersPieces(opponent);
+
+           foreach(ChessPiece p in pieces)
+           {
+               if(p.LegalMoves.Contains(pos))
+               {
+                   return true;
+               }
+           }
+           return false;
+       }
+       
        private List<Utils.Vec2> Update(Rook rook)
        {
            move_reach = 7;
@@ -204,7 +228,7 @@ namespace Chess.Model
                {
                    if (board.Tiles[dest.X, dest.Y].Piece == null)
                      moves.Add(dest);
-                   else if(board.Tiles[dest.X, dest.Y].Piece != null && knight.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                   else if(board.Tiles[dest.X, dest.Y].Piece.GetType() != typeof(King) && knight.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
                      moves.Add(dest);
                }
            }
@@ -239,23 +263,47 @@ namespace Chess.Model
            else
                movement_vectors =  new List<Utils.Vec2> (dark_pawn_moves);
 
+
+
            if (pawn.HasMoved)
            {
                movement_vectors.RemoveAt(movement_vectors.Count - 1);
+           }
+
+           else
+           {
+               Utils.Vec2 p = pawn.Position + movement_vectors.ElementAt(movement_vectors.Count - 1);
+               bool blocked = board.Tiles[p.X, p.Y].Piece != null;
+               if(blocked)
+               {
+                   movement_vectors.RemoveAt(movement_vectors.Count - 1);
+               }
            }
 
            moves = GetMoves(pawn,movement_vectors);
 
            foreach(Utils.Vec2 point in moves)
            {
-
-               if(pawn.Position.X != point.X)
+               if(point.Equals(pawn.Position) )
                {
-                   if(board.Tiles[point.X,point.Y].Piece == null)
+                   forbidden_moves.Add(point);
+               }
+
+               if(pawn.Position.X == point.X)
+               {
+                   if(board.Tiles[point.X,point.Y].Piece != null)
                    {
                        forbidden_moves.Add(point);
                    }
                }
+
+               else
+                {
+                   if(board.Tiles[point.X,point.Y].Piece == null)
+                   {
+                       forbidden_moves.Add(point);
+                   }
+                }
            }
 
            foreach (Utils.Vec2 point in forbidden_moves)
@@ -289,9 +337,11 @@ namespace Chess.Model
 
                if (!board.OutOfBounds(dest))
                {
-                   if (board.Tiles[dest.X, dest.Y].Piece == null)
+                   bool reachable = ReachableFrom(dest,king.Player);
+
+                   if (board.Tiles[dest.X, dest.Y].Piece == null && !reachable)
                        moves.Add(dest);
-                   else if (board.Tiles[dest.X, dest.Y].Piece != null && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
+                   else if (board.Tiles[dest.X, dest.Y].Piece != null && board.Tiles[dest.X, dest.Y].Piece.GetType() != typeof(King) && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player && !reachable)
                        moves.Add(dest);
                }
            }

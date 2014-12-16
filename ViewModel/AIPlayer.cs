@@ -19,6 +19,7 @@ namespace Chess.ViewModel
         {
             Random rnd = new Random();
             List < Tuple<Utils.Vec2, Utils.Vec2> > candidate_moves = new List<Tuple<Utils.Vec2,Utils.Vec2>>();
+            ai_pieces = Engine.Board.GetPlayersPieces(this.PlayerType);
 
             while(candidate_moves.Count < 50)
             {
@@ -57,7 +58,7 @@ namespace Chess.ViewModel
 
             Tuple<Utils.Vec2, Utils.Vec2> chosen_move = candidate_moves[index];
             InitMove(chosen_move.Item1);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(500);
 
             MakeMove(chosen_move.Item2);
 

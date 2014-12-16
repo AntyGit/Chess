@@ -10,7 +10,19 @@ namespace Chess.Model
     {
         public Knight(int x, int y, PlayerType player)
             : base(x, y, PieceType.Knight, player,3)
-        { }
+        {
+            if (player == PlayerType.AI)
+            {
+                legal_moves.Add(new Utils.Vec2(x-1, y + 2));
+                legal_moves.Add(new Utils.Vec2(x+1, y + 2));
+            }
+
+            else
+            {
+                legal_moves.Add(new Utils.Vec2(x-1, y - 2));
+                legal_moves.Add(new Utils.Vec2(x+1, y - 2));
+            }
+        }
 
        
     }
