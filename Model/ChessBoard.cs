@@ -23,7 +23,7 @@ namespace Chess.Model
             this.tiles = new Square[columns,rows];
             this.pieces = new ObservableCollection<ChessPiece>();
             this.engine = engine;
-            SetupBoard();
+            //SetupBoard();
         }
 
         public ChessBoard(ChessBoard board)
@@ -111,7 +111,7 @@ namespace Chess.Model
         public void InitLightPieces()
         {
 
-            for(int i = 0; i<columns-1; ++i)
+            for(int i = 0; i<columns; ++i)
             {
                 Pawn wp = new Pawn(i, rows - 2, PlayerType.Human);
                 tiles[i,rows-2].Piece = wp;
@@ -142,8 +142,8 @@ namespace Chess.Model
             tiles[4,rows - 1].Piece = new Knight(4, rows - 1, PlayerType.Human);
             pieces.Add(tiles[4,rows - 1].Piece);
 
-            /*tiles[7,rows - 1].Piece = new Rook(7, rows - 1, PlayerType.Human);
-            pieces.Add(tiles[7,rows - 1].Piece);*/
+            tiles[7,rows - 1].Piece = new Rook(7, rows - 1, PlayerType.Human);
+            pieces.Add(tiles[7,rows - 1].Piece);
 
         }
 
@@ -173,12 +173,12 @@ namespace Chess.Model
             ai_pieces.Add(tiles[2, 0].Piece);
 
 
-            /*tiles[3, 0].Piece = new Queen(3, 0, PlayerType.AI);
+            tiles[3, 0].Piece = new Queen(3, 0, PlayerType.AI);
             pieces.Add(tiles[3, 0].Piece);
-            ai_pieces.Add(tiles[3, 0].Piece);*/
-            tiles[7, 7].Piece = new Queen(7, 7, PlayerType.AI);
+            ai_pieces.Add(tiles[3, 0].Piece);
+            /*tiles[7, 7].Piece = new Queen(7, 7, PlayerType.AI);
             pieces.Add(tiles[7, 7].Piece);
-            ai_pieces.Add(tiles[7, 7].Piece);
+            ai_pieces.Add(tiles[7, 7].Piece);*/
 
 
             tiles[4, 0].Piece = new King(4, 0, PlayerType.AI);
@@ -194,12 +194,12 @@ namespace Chess.Model
             pieces.Add(tiles[6, 0].Piece);
             ai_pieces.Add(tiles[6, 0].Piece);
 
-            /*tiles[7, 0].Piece = new Rook(7, 0, PlayerType.AI);
+            tiles[7, 0].Piece = new Rook(7, 0, PlayerType.AI);
             pieces.Add(tiles[7, 0].Piece);
-            ai_pieces.Add(tiles[7, 0].Piece);*/
-            tiles[7, 3].Piece = new Rook(7, 3, PlayerType.AI);
+            ai_pieces.Add(tiles[7, 0].Piece);
+            /*tiles[7, 3].Piece = new Rook(7, 3, PlayerType.AI);
             pieces.Add(tiles[7, 3].Piece);
-            ai_pieces.Add(tiles[7, 3].Piece);
+            ai_pieces.Add(tiles[7, 3].Piece);*/
 
 
 

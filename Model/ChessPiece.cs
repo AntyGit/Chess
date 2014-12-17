@@ -126,6 +126,11 @@ namespace Chess.Model
             {
                 return has_moved;
             }
+
+            set
+            {
+                has_moved = value;
+            }
         }
 
         //Publish an event (a property changed). This is called by set method of propreties

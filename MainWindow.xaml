@@ -136,8 +136,8 @@
 
             <Menu DockPanel.Dock="Top" Height="25">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Load" Click="ResetButton_Click"/>
-                    <MenuItem Header="_Save" Click="ResetButton_Click"/>
+                    <MenuItem Header="_Load" Click="Load"/>
+                    <MenuItem Header="_Save" Click="Save"/>
                 </MenuItem>
             </Menu>
 

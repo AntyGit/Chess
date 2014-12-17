@@ -120,6 +120,16 @@ namespace Chess
                 {
                     //engine.ResetGame();
                 }
+
+        private void Load(object sender, RoutedEventArgs e)
+        {
+            engine.DeserializeGame();
+        }
+
+        private void Save(object sender, RoutedEventArgs e)
+        {
+            engine.SerializeGame();
+        }
  
     }
 }
