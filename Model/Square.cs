@@ -13,22 +13,25 @@ namespace Chess.Model
     {
         private ChessPiece piece;
         private TileColor color;
-        private string name;
+        //private string name;
 
-        public Square(TileColor color, string name)
+        public Square(TileColor color)
         {
             this.piece = null;
             this.color = color;
-            this.name = name;
+            //this.name = name;
         }
 
-/*        Square(ChessPiece piece, SolidColorBrush color, string name)
+        public Square(Square square)
         {
-            this.piece = piece;
-            this.color = color;
-            this.name = name;
+            if (square.Piece == null)
+                this.piece = null;
+            else
+                this.piece = new ChessPiece(square.Piece);
 
-        }*/
+            this.color = square.color;
+            //this.name = name;
+        }
 
         public TileColor Color
         {

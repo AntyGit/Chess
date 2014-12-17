@@ -22,7 +22,7 @@ namespace Chess.ViewModel
         }
 
         public abstract void InitMove(Utils.Vec2 source);
-        public abstract void MakeMove(Utils.Vec2 destination);
+        public abstract bool MakeMove(Utils.Vec2 destination);
 
 
         public ChessGameEngine Engine

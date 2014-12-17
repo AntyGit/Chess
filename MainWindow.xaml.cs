@@ -37,6 +37,7 @@ namespace Chess
             
             InitializeGame();
             this.DataContext = engine;
+            //status.Content = engine.GameStatus;
             selected_rectangle = null;
             piece_texture = null;
             piece_selected = false;

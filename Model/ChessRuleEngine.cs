@@ -305,8 +305,10 @@ namespace Chess.Model
 
            else
            {
-               Utils.Vec2 p = pawn.Position + movement_vectors.ElementAt(movement_vectors.Count - 1);
-               bool blocked = board.Tiles[p.X, p.Y].Piece != null;
+               Utils.Vec2 p1 = pawn.Position + movement_vectors.ElementAt(movement_vectors.Count - 1);
+               Utils.Vec2 p2 = pawn.Position + movement_vectors.First();
+
+               bool blocked = board.Tiles[p1.X, p1.Y].Piece != null || board.Tiles[p2.X, p2.Y].Piece != null;
                if(blocked)
                {
                    movement_vectors.RemoveAt(movement_vectors.Count - 1);
@@ -370,16 +372,22 @@ namespace Chess.Model
 
                if (!board.OutOfBounds(dest))
                {
-                   bool reachable = board.ReachableFrom(dest,king.Player);
+                   //bool reachable = board.ReachableFrom(dest,king.Player);
 
-                   if (board.Tiles[dest.X, dest.Y].Piece == null && reachable == false)
+                   if (board.Tiles[dest.X, dest.Y].Piece == null /*&& reachable == false*/)
                        moves.Add(dest);
-                   else if (board.Tiles[dest.X, dest.Y].Piece != null && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player && reachable == false)
+                   else if (board.Tiles[dest.X, dest.Y].Piece != null && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player /*&& reachable == false*/)
                        moves.Add(dest);
                }
            }
 
            return moves;
+       }
+
+      public ChessBoard Board
+       {
+           get { return board; }
+           set { this.board = value; }
        }
 
     }

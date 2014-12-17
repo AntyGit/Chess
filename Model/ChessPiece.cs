@@ -11,7 +11,7 @@ namespace Chess.Model
     //This class should be made extendable later on.
 
     //INotify is an interface that is implemented to notify the view model that a property of the model has changed
-    public abstract class ChessPiece : INotifyPropertyChanged
+    public class ChessPiece : INotifyPropertyChanged
     {
         //Eventhandler that must be implemnted for INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,7 +24,7 @@ namespace Chess.Model
         protected readonly List<Utils.Vec2> direction_vectors;
         private int value;
 
-        public ChessPiece(int x, int y,PieceType type,PlayerType player, int value)
+        protected ChessPiece(int x, int y,PieceType type,PlayerType player, int value)
         {
             this.position = new Vec2(x, y);
             this.has_moved = false;
@@ -33,6 +33,28 @@ namespace Chess.Model
             this.legal_moves = new List<Vec2>();
             this.direction_vectors = new List<Vec2>();
             this.value = value;
+        }
+
+        public ChessPiece(ChessPiece p)
+        {
+            this.position = new Vec2(p.Position.X, p.Position.Y);
+            this.has_moved = p.HasMoved;
+            this.type = p.type;
+            this.player = p.Player;
+            this.legal_moves = new List<Vec2>(p.LegalMoves);
+            this.direction_vectors = new List<Vec2>(p.direction_vectors);
+            this.value = p.Value;
+        }
+
+        public bool Equals(ChessPiece p)
+        {
+            if (p == null)
+                return false;
+
+            else
+            {
+                return position.X == p.Position.X && position.Y == p.Position.Y && type == p.PieceType && player == p.Player;
+            }
         }
 
         public PieceType PieceType

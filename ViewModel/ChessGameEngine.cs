@@ -1,6 +1,7 @@
 ﻿using Chess.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Chess.ViewModel
 {
     // This will be the class that feeds the GUI with information (i.e the data context) 
-    public class ChessGameEngine
+    public class ChessGameEngine : INotifyPropertyChanged
     {
        private bool initialized;
        private bool game_over;
@@ -17,7 +18,16 @@ namespace Chess.ViewModel
        private PlayerType active_player;
        private Player light_player;
        private AIPlayer dark_player;
-       
+       private string status;
+
+       public event PropertyChangedEventHandler PropertyChanged;
+
+       private void OnPropertyChanged(string propertyName)
+       {
+           if (PropertyChanged != null)
+               PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+       }
+
        public ChessGameEngine()
        { 
           board = new ChessBoard(this);
@@ -27,12 +37,14 @@ namespace Chess.ViewModel
 
        public void InitializeGame(Player white, Player black)
        {
+           status = "Turn: GUI";
            light_player = white;
            dark_player = (AIPlayer)black;
            active_player = PlayerType.Human;
            board.InitLightPieces();
            board.InitDarkPieces();
            rule_engine.UpdateRules();
+           UpdatePlayerStatus();
            initialized = true;
            game_over = false;
        }
@@ -64,6 +76,80 @@ namespace Chess.ViewModel
                    }
        }
 
+
+       public bool SimulateMove(ChessPiece piece, Utils.Vec2 source, Utils.Vec2 destination)
+       {
+           ChessBoard test_board = new ChessBoard(board);
+           ChessPiece test_piece = test_board.Tiles[piece.Position.X,piece.Position.Y].Piece;
+           rule_engine.Board = test_board;
+
+           test_piece.Position = destination;
+           test_board.UpdateTiles(source, destination);
+
+           rule_engine.UpdateRules();
+
+           ChessPiece king;
+
+           if(test_piece.PieceType == PieceType.King)
+             king = test_piece;
+           else
+             king = test_board.GetKing(test_piece.Player);
+
+           if (test_board.ReachableFrom(king.Position, king.Player))
+           {
+               rule_engine.Board = this.board;
+               return true;
+           }
+
+           else
+           {
+               rule_engine.Board = this.board;
+               return false;
+           }
+               
+
+           /*board2[i, j] = board2[a, b];
+           board2[a, b] = new Blank();*/
+
+           //ta fram kungens pos.
+
+           //för alla motståndarpjäser
+           //kolla om dom kan gå till kungen.
+           //sant -> return true (det är chack)
+
+
+           /*PlayerType opponent;
+           PlayerType side = piece.Player;
+
+           if (side == PlayerType.Human)
+               opponent = PlayerType.AI;
+           else
+               opponent = PlayerType.Human;
+
+
+           List<ChessPiece> player_pieces = board.GetPlayersPieces(opponent);
+
+           foreach (ChessPiece p in pieces)
+           {
+               if (p.GetType() == typeof(Pawn))
+               {
+
+                   if ((p.Position.X == pos.X - 1 || p.Position.X == pos.X + 1))
+                   {
+                       if (p.Player == PlayerType.AI && (p.Position.Y == pos.Y - 1) || p.Player == PlayerType.Human && (p.Position.Y == pos.Y + 1))
+                           return true;
+                   }
+               }
+
+               else if (p.LegalMoves.Contains(pos))
+               {
+                   return true;
+               }
+
+           }
+           return false;*/
+       }
+
        public bool MovePiece(Utils.Vec2 source, Utils.Vec2 destination)
        {
            ChessPiece p = Board.GetPiece(source);
@@ -71,20 +157,36 @@ namespace Chess.ViewModel
            if (initialized && !game_over && p.Player == active_player)
            {
                rule_engine.UpdateRules();
-               if (rule_engine.IsMoveValid(p, destination) && !rule_engine.TestCheckMove(p,destination) )
+
+               if (rule_engine.IsMoveValid(p, destination) )
                {
                    if (!source.Equals(destination))
                    {
-                       p.Position = destination;
-                       Board.UpdateTiles(source, destination);
-                       rule_engine.UpdateRules();
-                       //Check if a player has been checked or check mate
-                       UpdatePlayerStatus();
-                       
-                       SwitchTurn();
-                       return true;
+                       bool makes_checked = SimulateMove(p,source,destination);
+
+                       if (!makes_checked)
+                       {
+                           p.Position = destination;
+                           Board.UpdateTiles(source, destination);
+                           rule_engine.UpdateRules();
+                           //Check if a player has been checked or check mate
+                           UpdatePlayerStatus();
+                           SwitchTurn();
+                           return true;
+                       }
+
+                       else
+                           if(active_player == PlayerType.AI)
+                           {
+
+                               //UpdatePlayerStatus();
+                               //SwitchTurn();
+                               return false;
+                           }
+
+
                    }
-                   return false;
+                   return true;
                }
                return false;
            }
@@ -102,12 +204,20 @@ namespace Chess.ViewModel
           if (light_king != null && board.ReachableFrom(light_king.Position, light_king.Player))
           {
               light_player.Check = true;
+              GameStatus = "GUI Check";
 
-              if (light_king.LegalMoves.Count == 0)
+              foreach (Utils.Vec2 dest in light_king.LegalMoves)
               {
-                  light_player.CheckMate = true;
-                  game_over = true;
+                  if(!SimulateMove(light_king,light_king.Position,dest))
+                  {
+                      break;
+                  }
+
               }
+
+              light_player.CheckMate = true;
+              GameStatus = "Check Mate";
+              game_over = true;
 
           }
 
@@ -115,12 +225,20 @@ namespace Chess.ViewModel
           else if (dark_king != null && board.ReachableFrom(dark_king.Position, dark_king.Player))
            {
                dark_player.Check = true;
+               GameStatus = "AI Check";
 
-               if (dark_king.LegalMoves.Count == 0)
+               foreach (Utils.Vec2 dest in dark_king.LegalMoves)
                {
-                   dark_player.CheckMate = true;
-                   game_over = true;
+                   if (!SimulateMove(dark_king, dark_king.Position, dest))
+                   {
+                       break;
+                   }
+
                }
+
+               dark_player.CheckMate = true;
+               GameStatus = "Check Mate";
+               game_over = true;
 
 
            }
@@ -133,7 +251,9 @@ namespace Chess.ViewModel
            if(active_player == light_player.PlayerType)
            {
                active_player = dark_player.PlayerType;
+               GameStatus = "Turn: GUI";
                dark_player.PlanMove();
+
                //System.Threading.Thread worker_thread = new System.Threading.Thread(dark_player.PlanMove);
                //worker_thread.Start();
            }
@@ -141,6 +261,8 @@ namespace Chess.ViewModel
            else
            {
                active_player = light_player.PlayerType;
+               GameStatus = "Turn: AI";
+
            }
        }
 
@@ -149,6 +271,12 @@ namespace Chess.ViewModel
            System.Xml.Serialization.XmlSerializer serializer = new
 
        }*/
+
+       public string GameStatus
+       {
+           get { return status; }
+           set { OnPropertyChanged("GameStatus"); status = value; }
+       }
 
        public ViewModel.Player LightPlayer
        {

@@ -27,5 +27,8 @@ namespace Chess.Model
                 
             }
 
+        public Pawn (Pawn p) : base(p)
+        {
+        }
     }
 }

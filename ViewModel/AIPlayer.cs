@@ -41,10 +41,9 @@ namespace Chess.ViewModel
                 }
             }
 
-            int max_value = -1;
-            int index = 0;
+            candidate_moves.Sort((t1, t2) => Engine.TryMove(t2.Item1, t2.Item2).CompareTo(Engine.TryMove(t1.Item1, t1.Item2)) );
 
-            for(int i = 0; i<candidate_moves.Count ; ++i)
+            /*for(int i = 0; i<candidate_moves.Count ; ++i)
             {
                 Utils.Vec2 source = candidate_moves[i].Item1;
                 Utils.Vec2 dest = candidate_moves[i].Item2;
@@ -58,10 +57,30 @@ namespace Chess.ViewModel
 
             Tuple<Utils.Vec2, Utils.Vec2> chosen_move = candidate_moves[index];
             InitMove(chosen_move.Item1);
-            System.Threading.Thread.Sleep(500);
 
-            MakeMove(chosen_move.Item2);
+            bool sucess = MakeMove(chosen_move.Item2);
+            
+            for (int i = 0; i < candidate_moves.Count && !sucess; ++i )
+            {
+                chosen_move = candidate_moves[i];
+                InitMove(chosen_move.Item1);
+                sucess = MakeMove(chosen_move.Item2);
 
+                if (sucess)
+                    break;
+            }*/
+
+            bool success = false;
+            for (int i = 0; i < candidate_moves.Count; ++i )
+            {;
+                 InitMove(candidate_moves[i].Item1);
+                 success = MakeMove(candidate_moves[i].Item2);
+
+                if (success)
+                    break;
+            }
+
+            //System.Threading.Thread.Sleep(500);
         }
 
         public override void InitMove(Utils.Vec2 source)
@@ -69,9 +88,9 @@ namespace Chess.ViewModel
             this.source = source;
         }
 
-        public override void MakeMove(Utils.Vec2 destination)
+        public override bool MakeMove(Utils.Vec2 destination)
         {
-            Engine.MovePiece(source,destination);
+            return Engine.MovePiece(source,destination);
         }
 
         public List<Model.ChessPiece> Pieces

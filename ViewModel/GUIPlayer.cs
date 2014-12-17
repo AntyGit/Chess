@@ -19,9 +19,9 @@ namespace Chess.ViewModel
             this.source = source;
         }
 
-        public override void MakeMove(Utils.Vec2 destination)
+        public override bool MakeMove(Utils.Vec2 destination)
         {
-            Engine.MovePiece(source,destination);
+            return Engine.MovePiece(source,destination);
         }
 
         public Model.ChessBoard Board

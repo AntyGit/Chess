@@ -21,6 +21,10 @@ namespace Chess.Model
             direction_vectors.Add(new Utils.Vec2(-1, -1));
         }
 
+        public King (King p) : base(p)
+        {
+        }
+
        
     }
 }

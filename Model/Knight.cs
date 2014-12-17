@@ -24,6 +24,8 @@ namespace Chess.Model
             }
         }
 
-       
+        public Knight (Knight p) : base(p)
+        {
+        }
     }
 }

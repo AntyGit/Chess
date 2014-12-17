@@ -12,5 +12,8 @@ namespace Chess.Model
             : base(x, y, PieceType.Queen, player,9)
         { }
 
+        public Queen (Queen p) : base(p)
+        {
+        }
     }
 }

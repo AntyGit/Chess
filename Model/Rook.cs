@@ -12,6 +12,8 @@ namespace Chess.Model
             : base(x, y, PieceType.Rook, player,5)
         {}
 
-       
+        public Rook (Rook p) : base(p)
+        {
+        }
     }
 }

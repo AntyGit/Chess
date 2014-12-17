@@ -129,6 +129,22 @@
     </Window.Resources>
     
     <Grid Name="Grid">
+        <!--<Button x:Name="ResetButton" Content="Reset&#xA;" Margin="94,2,1101,663" Click="ResetButton_Click" Height="25" VerticalAlignment="Center" />-->
+
+        <DockPanel>
+            <Label x:Name="status" Content="{Binding GameStatus}" Margin="20,0,0,0"/>
+
+            <Menu DockPanel.Dock="Top" Height="25">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Load" Click="ResetButton_Click"/>
+                    <MenuItem Header="_Save" Click="ResetButton_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <StackPanel>
+            </StackPanel>
+        </DockPanel>
+        
         <UniformGrid x:Name="tile_grid" Rows="8" Columns="8" Margin="0,25,0,0"/>
 
         <ItemsControl ItemsSource="{Binding Path=Board.Pieces}" Margin="0,25,0,0" >
@@ -175,9 +191,8 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
         
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="{Binding ActualHeight, ElementName=ResetButton, Mode=OneWay}">
-            <Button x:Name="ResetButton" Content="Reset&#xA;" Margin="0,0,1195,0" Click="ResetButton_Click" Height="25" VerticalAlignment="Center" />
-            <Label Content="Label"/>
-        </StackPanel>
+        <!--<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="{Binding ActualHeight, ElementName=ResetButton, Mode=OneWay}">-->
+
+        <!--</StackPanel>-->
     </Grid>
 </Window>

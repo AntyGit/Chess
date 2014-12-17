@@ -26,6 +26,25 @@ namespace Chess.Model
             SetupBoard();
         }
 
+        public ChessBoard(ChessBoard board)
+        {
+            this.rows = board.Rows;
+            this.columns = board.Columns;
+            tiles = new Square[columns, rows];
+
+            for (int i = 0; i < rows; ++i )
+            {
+                for (int j = 0; j < columns; ++j )
+                {
+                   this.tiles[i,j] = new Square(board.Tiles[i,j]);
+                }
+            }
+                
+            this.pieces = new ObservableCollection<ChessPiece>(board.Pieces);
+            this.engine = board.engine;
+            //SetupBoard();
+        }
+
         public ObservableCollection<ChessPiece> Pieces
         {
             get
@@ -83,7 +102,7 @@ namespace Chess.Model
                         color = TileColor.Dark;
                     }
 
-                    Square s = new Square(color, "");
+                    Square s = new Square(color);
                     tiles[i, j] = s;
                 }
             }
@@ -92,7 +111,7 @@ namespace Chess.Model
         public void InitLightPieces()
         {
 
-            for(int i = 0; i<columns; ++i)
+            for(int i = 0; i<columns-1; ++i)
             {
                 Pawn wp = new Pawn(i, rows - 2, PlayerType.Human);
                 tiles[i,rows-2].Piece = wp;
@@ -114,20 +133,17 @@ namespace Chess.Model
             pieces.Add(tiles[3,rows - 1].Piece);
 
 
-            tiles[4,rows - 1].Piece = new King(4, rows - 1, PlayerType.Human);
-            pieces.Add(tiles[4,rows - 1].Piece);
-
-            /*tiles[4, 3].Piece = new King(4, 3, PlayerType.Human);
-            pieces.Add(tiles[4,3].Piece);*/
+            tiles[6,rows - 1].Piece = new King(6, rows - 1, PlayerType.Human);
+            pieces.Add(tiles[6,rows - 1].Piece);
 
             tiles[5,rows - 1].Piece = new Bishop(5, rows - 1, PlayerType.Human);
             pieces.Add(tiles[5,rows - 1].Piece);
 
-            tiles[6,rows - 1].Piece = new Knight(6, rows - 1, PlayerType.Human);
-            pieces.Add(tiles[6,rows - 1].Piece);
+            tiles[4,rows - 1].Piece = new Knight(4, rows - 1, PlayerType.Human);
+            pieces.Add(tiles[4,rows - 1].Piece);
 
-            tiles[7,rows - 1].Piece = new Rook(7, rows - 1, PlayerType.Human);
-            pieces.Add(tiles[7,rows - 1].Piece);
+            /*tiles[7,rows - 1].Piece = new Rook(7, rows - 1, PlayerType.Human);
+            pieces.Add(tiles[7,rows - 1].Piece);*/
 
         }
 
@@ -157,9 +173,12 @@ namespace Chess.Model
             ai_pieces.Add(tiles[2, 0].Piece);
 
 
-            tiles[3, 0].Piece = new Queen(3, 0, PlayerType.AI);
+            /*tiles[3, 0].Piece = new Queen(3, 0, PlayerType.AI);
             pieces.Add(tiles[3, 0].Piece);
-            ai_pieces.Add(tiles[3, 0].Piece);
+            ai_pieces.Add(tiles[3, 0].Piece);*/
+            tiles[7, 7].Piece = new Queen(7, 7, PlayerType.AI);
+            pieces.Add(tiles[7, 7].Piece);
+            ai_pieces.Add(tiles[7, 7].Piece);
 
 
             tiles[4, 0].Piece = new King(4, 0, PlayerType.AI);
@@ -171,17 +190,18 @@ namespace Chess.Model
             pieces.Add(tiles[5, 0].Piece);
             ai_pieces.Add(tiles[5, 0].Piece);
 
-            /*tiles[3, 5].Piece = new Bishop(3, 5, PlayerType.AI);
-            pieces.Add(tiles[3, 5].Piece);
-            ai_pieces.Add(tiles[3, 5].Piece);*/
-
             tiles[6, 0].Piece = new Knight(6, 0, PlayerType.AI);
             pieces.Add(tiles[6, 0].Piece);
             ai_pieces.Add(tiles[6, 0].Piece);
 
-            tiles[7, 0].Piece = new Rook(7, 0, PlayerType.AI);
+            /*tiles[7, 0].Piece = new Rook(7, 0, PlayerType.AI);
             pieces.Add(tiles[7, 0].Piece);
-            ai_pieces.Add(tiles[7, 0].Piece);
+            ai_pieces.Add(tiles[7, 0].Piece);*/
+            tiles[7, 3].Piece = new Rook(7, 3, PlayerType.AI);
+            pieces.Add(tiles[7, 3].Piece);
+            ai_pieces.Add(tiles[7, 3].Piece);
+
+
 
             engine.DarkPlayer.Pieces = ai_pieces;
         }
@@ -275,6 +295,7 @@ namespace Chess.Model
         }
        
 
+
         public void UpdateTiles(Utils.Vec2 source, Utils.Vec2 destination)
         {
             ChessPiece p = tiles[destination.X, destination.Y].Piece;
@@ -282,7 +303,16 @@ namespace Chess.Model
 
             if (p != null && tiles[source.X, source.Y].Piece.Player != tiles[destination.X, destination.Y].Piece.Player)
             { 
-                int index = pieces.IndexOf(p);
+                int index = -1;
+                for (int i = 0; i < pieces.Count();++i )
+                {
+                    if (p.Equals(pieces[i]))
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
                 if(index != -1)
                 {
                     pieces.RemoveAt(index);
