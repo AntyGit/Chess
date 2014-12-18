@@ -80,6 +80,11 @@ namespace Chess.ViewModel
                     break;
             }
 
+            if(!success)
+            {
+                PlanMove();
+            }
+
             //System.Threading.Thread.Sleep(500);
         }
 

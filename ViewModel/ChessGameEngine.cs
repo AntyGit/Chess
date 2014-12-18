@@ -21,7 +21,7 @@ namespace Chess.ViewModel
        private Player light_player;
        private AIPlayer dark_player;
        private string status;
-       private string filepath = "C:\\Users\\Gabi\\Desktop\\ChessGame.xml";
+       private string filepath = @"C:\Users\antda166\Documents\ChessGame.xml"; //C:\Users\antda166\Documents
        private FileSystemWatcher watcher;
 
        public event PropertyChangedEventHandler PropertyChanged;
@@ -39,6 +39,7 @@ namespace Chess.ViewModel
           rule_engine = new ChessRuleEngine(board);
           initialized = false;
           game_over = false;
+          watcher = null;
        }
 
        public void InitializeGame(Player white, Player black)
@@ -54,8 +55,8 @@ namespace Chess.ViewModel
 
            }
 
-           else
-               SetupIO();
+           /*else
+               SetupIO();*/
 
            rule_engine.UpdateRules();
            UpdatePlayerStatus();
@@ -66,10 +67,10 @@ namespace Chess.ViewModel
        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
        private void SetupIO()
        {
-           watcher = new FileSystemWatcher();
-           watcher.Path = @"C:\Users\Gabi\Desktop";
+           watcher = new FileSystemWatcher(@"C:\Users\antda166\Documents", "ChessGame.xml");
+           //watcher.Path = @"C:\Users\antda166\Documents";
 
-           watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+           watcher.NotifyFilter = NotifyFilters.LastWrite;
 
            watcher.Filter = "*.xml";
 
@@ -199,7 +200,6 @@ namespace Chess.ViewModel
            if (initialized && !game_over && p.Player == active_player)
            {
                rule_engine.UpdateRules();
-
                if (rule_engine.IsMoveValid(p, destination) )
                {
                    if (!source.Equals(destination))
@@ -213,6 +213,7 @@ namespace Chess.ViewModel
                            rule_engine.UpdateRules();
                            //Check if a player has been checked or check mate
                            UpdatePlayerStatus();
+
                            SwitchTurn();
                            SerializeGame();
                            return true;
@@ -261,7 +262,7 @@ namespace Chess.ViewModel
 
               }
 
-              if(cm == true)
+              if (cm == true )
               {
                  
                       light_player.CheckMate = true;
@@ -272,8 +273,16 @@ namespace Chess.ViewModel
 
           }
 
+          else if (light_king.LegalMoves.Count == 0 && board.ReachableFrom(light_king.Position, light_king.Player))
+          {
+              light_player.CheckMate = true;
+              GameStatus = "Check Mate";
+              game_over = true;
+          }
 
-          else if (dark_king != null && board.ReachableFrom(dark_king.Position, dark_king.Player))
+
+
+          if (dark_king != null && board.ReachableFrom(dark_king.Position, dark_king.Player))
            {
                dark_player.Check = true;
                GameStatus = "AI Check";
@@ -302,6 +311,13 @@ namespace Chess.ViewModel
 
            }
 
+          else if (dark_king.LegalMoves.Count == 0 && board.ReachableFrom(dark_king.Position, dark_king.Player))
+          {
+              dark_player.CheckMate = true;
+              GameStatus = "Check Mate";
+              game_over = true;
+          }
+
        }
 
 
@@ -328,6 +344,9 @@ namespace Chess.ViewModel
 
        public void SerializeGame()
        {
+           /*if (watcher == null)
+               SetupIO();*/
+
            // Create the XmlDocument.
            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
            doc.LoadXml("<game><turn>" + active_player + "</turn></game>");
@@ -387,7 +406,7 @@ namespace Chess.ViewModel
            doc.Save(writer);
            writer.Close();
            GameStatus = "Game saved";
-           SetupIO();
+
        }
 
        public bool DeserializeGame()
@@ -399,6 +418,25 @@ namespace Chess.ViewModel
 
            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
            doc.Load(filepath);
+           bool failed = true;
+
+           /*while(failed)
+           {
+               try
+               {
+                   doc.Load(filepath);
+               }
+
+               catch(System.IO.IOException e)
+               {
+                   failed = true;
+                   continue;
+               }
+               
+                failed = false;
+            }*/
+
+
            int i = 0;
 
            //AbstractPiece[] tmpBoard = new AbstractPiece[64];
