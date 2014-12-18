@@ -133,14 +133,14 @@ namespace Chess.Model
             pieces.Add(tiles[3,rows - 1].Piece);
 
 
-            tiles[6,rows - 1].Piece = new King(6, rows - 1, PlayerType.Human);
-            pieces.Add(tiles[6,rows - 1].Piece);
+            tiles[4,rows - 1].Piece = new King(4, rows - 1, PlayerType.Human);
+            pieces.Add(tiles[4,rows - 1].Piece);
 
             tiles[5,rows - 1].Piece = new Bishop(5, rows - 1, PlayerType.Human);
             pieces.Add(tiles[5,rows - 1].Piece);
 
-            tiles[4,rows - 1].Piece = new Knight(4, rows - 1, PlayerType.Human);
-            pieces.Add(tiles[4,rows - 1].Piece);
+            tiles[6,rows - 1].Piece = new Knight(6, rows - 1, PlayerType.Human);
+            pieces.Add(tiles[6,rows - 1].Piece);
 
             tiles[7,rows - 1].Piece = new Rook(7, rows - 1, PlayerType.Human);
             pieces.Add(tiles[7,rows - 1].Piece);

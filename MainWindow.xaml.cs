@@ -118,7 +118,7 @@ namespace Chess
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
                 {
-                    //engine.ResetGame();
+                    engine.ResetGame();
                 }
 
         private void Load(object sender, RoutedEventArgs e)

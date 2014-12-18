@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +21,8 @@ namespace Chess.ViewModel
        private Player light_player;
        private AIPlayer dark_player;
        private string status;
+       private string filepath = "C:\\Users\\Gabi\\Desktop\\ChessGame.xml";
+       private FileSystemWatcher watcher;
 
        public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,6 +38,7 @@ namespace Chess.ViewModel
           board.SetupBoard();
           rule_engine = new ChessRuleEngine(board);
           initialized = false;
+          game_over = false;
        }
 
        public void InitializeGame(Player white, Player black)
@@ -42,17 +47,43 @@ namespace Chess.ViewModel
            light_player = white;
            dark_player = (AIPlayer)black;
            active_player = PlayerType.Human;
-           if(!DeserializeGame())
+           if (!DeserializeGame())
            {
                board.InitLightPieces();
                board.InitDarkPieces();
+
            }
+
+           else
+               SetupIO();
 
            rule_engine.UpdateRules();
            UpdatePlayerStatus();
            initialized = true;
-           game_over = false;
+
        }
+
+       [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+       private void SetupIO()
+       {
+           watcher = new FileSystemWatcher();
+           watcher.Path = @"C:\Users\Gabi\Desktop";
+
+           watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+
+           watcher.Filter = "*.xml";
+
+           watcher.Changed += new FileSystemEventHandler(OnFileChanged);
+           watcher.Created += new FileSystemEventHandler(OnFileChanged);
+
+           watcher.EnableRaisingEvents = true;
+       }
+
+        private void OnFileChanged(object source, FileSystemEventArgs e)
+        {
+            DeserializeGame();
+        }
+
        public ChessBoard Board
        {
          get
@@ -183,6 +214,7 @@ namespace Chess.ViewModel
                            //Check if a player has been checked or check mate
                            UpdatePlayerStatus();
                            SwitchTurn();
+                           SerializeGame();
                            return true;
                        }
 
@@ -216,19 +248,27 @@ namespace Chess.ViewModel
           {
               light_player.Check = true;
               GameStatus = "GUI Check";
+              bool cm = true;
 
               foreach (Utils.Vec2 dest in light_king.LegalMoves)
               {
-                  if(!SimulateMove(light_king,light_king.Position,dest))
+                  bool makes_checked=SimulateMove(light_king,light_king.Position,dest);
+                  if(!makes_checked)
                   {
+                      cm = false;
                       break;
                   }
 
               }
 
-              light_player.CheckMate = true;
-              GameStatus = "Check Mate";
-              game_over = true;
+              if(cm == true)
+              {
+                 
+                      light_player.CheckMate = true;
+                      GameStatus = "Check Mate";
+                      game_over = true;
+              }
+
 
           }
 
@@ -237,19 +277,27 @@ namespace Chess.ViewModel
            {
                dark_player.Check = true;
                GameStatus = "AI Check";
+               bool cm = true;
 
                foreach (Utils.Vec2 dest in dark_king.LegalMoves)
                {
-                   if (!SimulateMove(dark_king, dark_king.Position, dest))
+                   bool makes_checked = SimulateMove(dark_king, dark_king.Position, dest);
+                   if (!makes_checked)
                    {
+                       cm = false;
                        break;
                    }
 
+
+
                }
 
-               dark_player.CheckMate = true;
-               GameStatus = "Check Mate";
-               game_over = true;
+                   if(cm == true)
+                   {
+                       dark_player.CheckMate = true;
+                       GameStatus = "Check Mate";
+                       game_over = true;
+                   }
 
 
            }
@@ -335,21 +383,22 @@ namespace Chess.ViewModel
            settings.Indent = true;
            settings.CloseOutput = true;
            // Save the document to a file and auto-indent the output.
-           System.Xml.XmlWriter writer = System.Xml.XmlWriter.Create("C:\\Users\\Gabi\\Desktop\\ChessGame.xml", settings);
+           System.Xml.XmlWriter writer = System.Xml.XmlWriter.Create(filepath, settings);
            doc.Save(writer);
            writer.Close();
            GameStatus = "Game saved";
+           SetupIO();
        }
 
        public bool DeserializeGame()
        {
-           if(!System.IO.File.Exists("C:\\Users\\Gabi\\Desktop\\ChessGame.xml"))
+           if(!System.IO.File.Exists(filepath))
            {
                return false;
            }
 
            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
-           doc.Load("C:\\Users\\Gabi\\Desktop\\ChessGame.xml");
+           doc.Load(filepath);
            int i = 0;
 
            //AbstractPiece[] tmpBoard = new AbstractPiece[64];
@@ -422,6 +471,18 @@ namespace Chess.ViewModel
            Board = tmp_board;
            GameStatus = "Game loaded";
            return true;
+       }
+
+       public void ResetGame()
+       {
+           ChessBoard new_board = new ChessBoard(this);
+           new_board.SetupBoard();
+           new_board.InitLightPieces();
+           new_board.InitDarkPieces();
+           rule_engine.Board = new_board;
+           game_over = false;
+           Board = new_board;
+           SerializeGame();
        }
 
        public string GameStatus
