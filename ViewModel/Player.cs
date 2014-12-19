@@ -21,6 +21,8 @@ namespace Chess.ViewModel
             check_mate = false;
         }
 
+        public abstract void TakeTurn();
+
         public abstract void InitMove(Utils.Vec2 source);
         public abstract bool MakeMove(Utils.Vec2 destination);
 

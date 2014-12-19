@@ -19,7 +19,7 @@ namespace Chess.ViewModel
        private ChessRuleEngine rule_engine;
        private PlayerType active_player;
        private Player light_player;
-       private AIPlayer dark_player;
+       private Player dark_player;
        private string status;
        private string filepath = @"C:\Users\antda166\Documents\ChessGame.xml"; //C:\Users\antda166\Documents
        private FileSystemWatcher watcher;
@@ -55,8 +55,8 @@ namespace Chess.ViewModel
 
            }
 
-           /*else
-               SetupIO();*/
+           else
+               SetupIO();
 
            rule_engine.UpdateRules();
            UpdatePlayerStatus();
@@ -220,13 +220,13 @@ namespace Chess.ViewModel
                        }
 
                        else
-                           if(active_player == PlayerType.AI)
-                           {
+                       {
+                           //UpdatePlayerStatus();
+                           //SwitchTurn();
+                           return false;
+                       }
 
-                               //UpdatePlayerStatus();
-                               //SwitchTurn();
-                               return false;
-                           }
+
 
 
                    }
@@ -318,16 +318,22 @@ namespace Chess.ViewModel
               game_over = true;
           }
 
+          else if (board.Pieces.Count == 2 && light_king != null && dark_king != null)
+          {
+              GameStatus = "Tie";
+              game_over = true;
+          }
+
        }
 
 
-       private void SwitchTurn()
+       public void SwitchTurn()
        {
            if(active_player == light_player.PlayerType)
            {
                active_player = dark_player.PlayerType;
                GameStatus = "Turn: GUI";
-               dark_player.PlanMove();
+               dark_player.TakeTurn();
 
                //System.Threading.Thread worker_thread = new System.Threading.Thread(dark_player.PlanMove);
                //worker_thread.Start();
@@ -336,6 +342,7 @@ namespace Chess.ViewModel
            else
            {
                active_player = light_player.PlayerType;
+               light_player.TakeTurn();
                GameStatus = "Turn: AI";
 
            }
@@ -344,8 +351,8 @@ namespace Chess.ViewModel
 
        public void SerializeGame()
        {
-           /*if (watcher == null)
-               SetupIO();*/
+
+           watcher.EnableRaisingEvents = false;
 
            // Create the XmlDocument.
            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
@@ -393,7 +400,8 @@ namespace Chess.ViewModel
                    }*/
                }
 
-
+             /*if (watcher == null)
+                    SetupIO();*/
            }
 
            doc.DocumentElement.AppendChild(new_element);
@@ -406,7 +414,7 @@ namespace Chess.ViewModel
            doc.Save(writer);
            writer.Close();
            GameStatus = "Game saved";
-
+           watcher.EnableRaisingEvents = true;
        }
 
        public bool DeserializeGame()
@@ -538,7 +546,7 @@ namespace Chess.ViewModel
        }
 
 
-       public ViewModel.AIPlayer DarkPlayer
+       public ViewModel.Player DarkPlayer
        {
            get
            {

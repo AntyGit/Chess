@@ -19,6 +19,11 @@ namespace Chess.ViewModel
             this.source = source;
         }
 
+        public override void TakeTurn()
+        {
+
+        }
+
         public override bool MakeMove(Utils.Vec2 destination)
         {
             return Engine.MovePiece(source,destination);

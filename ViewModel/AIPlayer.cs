@@ -37,7 +37,8 @@ namespace Chess.ViewModel
                 if (move_piece.LegalMoves.Count > 0)
                 {
                     Utils.Vec2 dest = move_piece.LegalMoves.ElementAt(rnd.Next(0, move_piece.LegalMoves.Count));
-                    candidate_moves.Add(new Tuple<Utils.Vec2, Utils.Vec2>(move_piece.Position, dest));
+                    if(!Engine.SimulateMove(move_piece,move_piece.Position,dest))
+                        candidate_moves.Add(new Tuple<Utils.Vec2, Utils.Vec2>(move_piece.Position, dest));
                 }
             }
 
@@ -82,10 +83,15 @@ namespace Chess.ViewModel
 
             if(!success)
             {
-                PlanMove();
+                Engine.SwitchTurn();
             }
 
             //System.Threading.Thread.Sleep(500);
+        }
+
+        public override void TakeTurn()
+        {
+            PlanMove();
         }
 
         public override void InitMove(Utils.Vec2 source)

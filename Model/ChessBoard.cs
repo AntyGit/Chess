@@ -203,7 +203,7 @@ namespace Chess.Model
 
 
 
-            engine.DarkPlayer.Pieces = ai_pieces;
+            //engine.DarkPlayer.Pieces = ai_pieces;
         }
 
         public ChessPiece GetPiece(Utils.Vec2 position)
