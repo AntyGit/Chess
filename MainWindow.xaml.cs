@@ -26,20 +26,14 @@ namespace Chess
         private GUIPlayer human_player;
         private ChessGameEngine engine;
         private Rectangle selected_rectangle;
-        private Rectangle piece_texture;
         bool piece_selected;
 
         public MainWindow()
         {
             InitializeComponent();
-            //engine = new ChessGameEngine();
-            //human_player = new GUIPlayer(engine);
-            
             InitializeGame();
             this.DataContext = engine;
-            //status.Content = engine.GameStatus;
             selected_rectangle = null;
-            piece_texture = null;
             piece_selected = false;
             DrawBoard();
         }
@@ -68,7 +62,6 @@ namespace Chess
                     r.Fill = new SolidColorBrush(Colors.SlateGray);
 
                 r.MouseDown += Piece_MouseDown;
-                //r.MouseLeave += r_MouseLeave;
                 tile_grid.Children.Add(r);
             }
         }
@@ -111,7 +104,6 @@ namespace Chess
 
                         human_player.MakeMove(position);
                         piece_selected = false;
-                        //System.Threading.Thread.Sleep(500);
                     }
 
                 }

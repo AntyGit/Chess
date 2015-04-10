@@ -8,7 +8,6 @@ namespace Chess.Model
     public enum PlayerType {Human, AI}
     public enum PieceType { Pawn,King,Queen,Rook,Knight,Bishop}
 
-    //This class should be made extendable later on.
 
     //INotify is an interface that is implemented to notify the view model that a property of the model has changed
     public class ChessPiece : INotifyPropertyChanged

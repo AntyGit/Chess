@@ -13,13 +13,11 @@ namespace Chess.Model
     {
         private ChessPiece piece;
         private TileColor color;
-        //private string name;
 
         public Square(TileColor color)
         {
             this.piece = null;
             this.color = color;
-            //this.name = name;
         }
 
         public Square(Square square)
@@ -30,7 +28,6 @@ namespace Chess.Model
                 this.piece = new ChessPiece(square.Piece);
 
             this.color = square.color;
-            //this.name = name;
         }
 
         public TileColor Color

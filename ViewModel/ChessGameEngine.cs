@@ -150,47 +150,6 @@ namespace Chess.ViewModel
                return false;
            }
                
-
-           /*board2[i, j] = board2[a, b];
-           board2[a, b] = new Blank();*/
-
-           //ta fram kungens pos.
-
-           //för alla motståndarpjäser
-           //kolla om dom kan gå till kungen.
-           //sant -> return true (det är chack)
-
-
-           /*PlayerType opponent;
-           PlayerType side = piece.Player;
-
-           if (side == PlayerType.Human)
-               opponent = PlayerType.AI;
-           else
-               opponent = PlayerType.Human;
-
-
-           List<ChessPiece> player_pieces = board.GetPlayersPieces(opponent);
-
-           foreach (ChessPiece p in pieces)
-           {
-               if (p.GetType() == typeof(Pawn))
-               {
-
-                   if ((p.Position.X == pos.X - 1 || p.Position.X == pos.X + 1))
-                   {
-                       if (p.Player == PlayerType.AI && (p.Position.Y == pos.Y - 1) || p.Player == PlayerType.Human && (p.Position.Y == pos.Y + 1))
-                           return true;
-                   }
-               }
-
-               else if (p.LegalMoves.Contains(pos))
-               {
-                   return true;
-               }
-
-           }
-           return false;*/
        }
 
        public bool MovePiece(Utils.Vec2 source, Utils.Vec2 destination)
@@ -221,8 +180,6 @@ namespace Chess.ViewModel
 
                        else
                        {
-                           //UpdatePlayerStatus();
-                           //SwitchTurn();
                            return false;
                        }
 
@@ -335,8 +292,6 @@ namespace Chess.ViewModel
                GameStatus = "Turn: GUI";
                dark_player.TakeTurn();
 
-               //System.Threading.Thread worker_thread = new System.Threading.Thread(dark_player.PlanMove);
-               //worker_thread.Start();
            }
 
            else
@@ -352,7 +307,10 @@ namespace Chess.ViewModel
        public void SerializeGame()
        {
 
-           watcher.EnableRaisingEvents = false;
+           if(watcher != null)
+               watcher.EnableRaisingEvents = false;
+
+
 
            // Create the XmlDocument.
            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
@@ -378,7 +336,6 @@ namespace Chess.ViewModel
                    {
 
                        System.Xml.XmlElement tmp_piece = doc.CreateElement("Piece" + i + j);
-                       //Console.
                        square.AppendChild(tmp_piece);
 
                        tmp_piece.AppendChild(doc.CreateElement("PieceType"));
@@ -392,16 +349,9 @@ namespace Chess.ViewModel
                    }
 
 
-                   /*if (board.Tiles[i, j].Piece.PieceType == PieceType.Pawn)
-                   {
-                       tmp_piece.AppendChild(doc.CreateElement("hasMoved"));
-                       Pawn tmpPawn = board[i] as Pawn;
-                       tmpPiece.ChildNodes[2].InnerText = "" + tmpPawn.hasMoved;
-                   }*/
                }
 
-             /*if (watcher == null)
-                    SetupIO();*/
+
            }
 
            doc.DocumentElement.AppendChild(new_element);
@@ -414,6 +364,10 @@ namespace Chess.ViewModel
            doc.Save(writer);
            writer.Close();
            GameStatus = "Game saved";
+
+           if (watcher == null)
+               SetupIO();
+
            watcher.EnableRaisingEvents = true;
        }
 
@@ -426,28 +380,7 @@ namespace Chess.ViewModel
 
            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
            doc.Load(filepath);
-           bool failed = true;
 
-           /*while(failed)
-           {
-               try
-               {
-                   doc.Load(filepath);
-               }
-
-               catch(System.IO.IOException e)
-               {
-                   failed = true;
-                   continue;
-               }
-               
-                failed = false;
-            }*/
-
-
-           int i = 0;
-
-           //AbstractPiece[] tmpBoard = new AbstractPiece[64];
            ChessBoard tmp_board = new ChessBoard(this);
 
            active_player = (PlayerType)Enum.Parse(typeof(PlayerType),doc.DocumentElement.FirstChild.InnerText);
@@ -508,7 +441,6 @@ namespace Chess.ViewModel
 
                    tmp_board.Tiles[x,y].Piece = piece;
                    tmp_board.Pieces.Add(piece);
-                   ++i;
                }
 
            }

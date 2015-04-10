@@ -151,7 +151,6 @@
         <ItemsControl ItemsSource="{Binding Path=Board.Pieces}" Margin="0,25,0,0" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!--Try to bind the number of columns and rows as well-->
                     <Grid Name="hje" Width="{Binding tile_grid.ActualWidth}" Height="{Binding tile_grid.ActualHeight}" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -192,8 +191,5 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
         
-        <!--<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="{Binding ActualHeight, ElementName=ResetButton, Mode=OneWay}">-->
-
-        <!--</StackPanel>-->
     </Grid>
 </Window>

@@ -23,7 +23,6 @@ namespace Chess.Model
             this.tiles = new Square[columns,rows];
             this.pieces = new ObservableCollection<ChessPiece>();
             this.engine = engine;
-            //SetupBoard();
         }
 
         public ChessBoard(ChessBoard board)
@@ -42,7 +41,6 @@ namespace Chess.Model
                 
             this.pieces = new ObservableCollection<ChessPiece>(board.Pieces);
             this.engine = board.engine;
-            //SetupBoard();
         }
 
         public ObservableCollection<ChessPiece> Pieces
@@ -176,9 +174,7 @@ namespace Chess.Model
             tiles[3, 0].Piece = new Queen(3, 0, PlayerType.AI);
             pieces.Add(tiles[3, 0].Piece);
             ai_pieces.Add(tiles[3, 0].Piece);
-            /*tiles[7, 7].Piece = new Queen(7, 7, PlayerType.AI);
-            pieces.Add(tiles[7, 7].Piece);
-            ai_pieces.Add(tiles[7, 7].Piece);*/
+
 
 
             tiles[4, 0].Piece = new King(4, 0, PlayerType.AI);
@@ -197,13 +193,7 @@ namespace Chess.Model
             tiles[7, 0].Piece = new Rook(7, 0, PlayerType.AI);
             pieces.Add(tiles[7, 0].Piece);
             ai_pieces.Add(tiles[7, 0].Piece);
-            /*tiles[7, 3].Piece = new Rook(7, 3, PlayerType.AI);
-            pieces.Add(tiles[7, 3].Piece);
-            ai_pieces.Add(tiles[7, 3].Piece);*/
 
-
-
-            //engine.DarkPlayer.Pieces = ai_pieces;
         }
 
         public ChessPiece GetPiece(Utils.Vec2 position)
@@ -257,24 +247,7 @@ namespace Chess.Model
 
             foreach (ChessPiece p in pieces)
             {
-                //Pawn pawn = p as Pawn;
 
-                /*if(p.GetType() == typeof(Pawn))
-                {
-                    Pawn pawn = p as Pawn;
-                    if(pawn.Position.X != pos.X && pawn.LegalMoves.Contains(pos))
-                    {
-                        return true;
-                    }
-
-                    else
-                        return false;
-                }
-
-                else if(p.LegalMoves.Contains(pos))
-                {
-                    return true;
-                }*/
                 if (p.GetType() == typeof(Pawn))
                 {
 
@@ -324,18 +297,6 @@ namespace Chess.Model
             tiles[source.X, source.Y].Piece = null;
         }
 
-        /*public void UpdatePieces()
-        {
-            foreach(ChessPiece p in Pieces)
-            {
-                p.UpdateLegalMoves(this);
-            }
-        }*/
-
-        public void Reset()
-        {
-
-        }
 
     }
 }

@@ -23,15 +23,6 @@ namespace Chess.ViewModel
 
             while(candidate_moves.Count < 50)
             {
-                /*Model.ChessPiece move_piece = ai_pieces.ElementAt(rnd.Next(0, ai_pieces.Count));
-                InitMove(move_piece.Position);
-                if(move_piece.LegalMoves.Count > 0)
-                {
-                    Utils.Vec2 dest = move_piece.LegalMoves.ElementAt(rnd.Next(0, move_piece.LegalMoves.Count));
-                    System.Threading.Thread.Sleep(500);
-                    MakeMove(dest);
-                    break;
-                }*/
 
                 Model.ChessPiece move_piece = ai_pieces.ElementAt(rnd.Next(0, ai_pieces.Count));
                 if (move_piece.LegalMoves.Count > 0)
@@ -43,33 +34,6 @@ namespace Chess.ViewModel
             }
 
             candidate_moves.Sort((t1, t2) => Engine.TryMove(t2.Item1, t2.Item2).CompareTo(Engine.TryMove(t1.Item1, t1.Item2)) );
-
-            /*for(int i = 0; i<candidate_moves.Count ; ++i)
-            {
-                Utils.Vec2 source = candidate_moves[i].Item1;
-                Utils.Vec2 dest = candidate_moves[i].Item2;
-
-                if(Engine.TryMove(source, dest) > max_value)
-                {
-                    max_value = Engine.TryMove(source, dest);
-                    index = i;
-                }
-            }
-
-            Tuple<Utils.Vec2, Utils.Vec2> chosen_move = candidate_moves[index];
-            InitMove(chosen_move.Item1);
-
-            bool sucess = MakeMove(chosen_move.Item2);
-            
-            for (int i = 0; i < candidate_moves.Count && !sucess; ++i )
-            {
-                chosen_move = candidate_moves[i];
-                InitMove(chosen_move.Item1);
-                sucess = MakeMove(chosen_move.Item2);
-
-                if (sucess)
-                    break;
-            }*/
 
             bool success = false;
             for (int i = 0; i < candidate_moves.Count; ++i )
@@ -86,7 +50,6 @@ namespace Chess.ViewModel
                 Engine.SwitchTurn();
             }
 
-            //System.Threading.Thread.Sleep(500);
         }
 
         public override void TakeTurn()

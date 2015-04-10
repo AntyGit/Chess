@@ -90,21 +90,6 @@ namespace Chess.Model
        {
            var pieces = board.Pieces.ToList();
 
-           
-
-
-
-           /*board2[i, j] = board2[a, b];
-           board2[a, b] = new Blank();*/
-
-           
-
-           //ta fram kungens pos.
-
-           //för alla motståndarpjäser
-                //kolla om dom kan gå till kungen.
-                    //sant -> return true (det är chack)
-
 
             PlayerType opponent;
             PlayerType side = piece.Player;
@@ -163,8 +148,6 @@ namespace Chess.Model
                }
            }
 
-           //moves.Remove(p.Position);
-
            return moves;
        }
 
@@ -173,76 +156,6 @@ namespace Chess.Model
        {
            move_reach = 7;
            List<Utils.Vec2> moves = GetMoves(rook,rook_moves);
-
-           /*for (int i = rook.Position.X + 1; i < board.Columns; ++i)
-           {
-               if (board.Tiles[i, rook.Position.Y].Piece == null)
-               {
-                   moves.Add(new Utils.Vec2(i, rook.Position.Y));
-               }
-
-               else
-               {
-                   if (board.Tiles[i, rook.Position.Y].Piece.Player != rook.Player)
-                   {
-                       moves.Add(new Utils.Vec2(i, rook.Position.Y));
-                   }
-                   break;
-               }
-           }
-
-           for (int i = rook.Position.X - 1; i >= 0; --i)
-           {
-               if (board.Tiles[i, rook.Position.Y].Piece == null)
-               {
-                   moves.Add(new Utils.Vec2(i, rook.Position.Y));
-               }
-
-               else
-               {
-                   if (board.Tiles[i, rook.Position.Y].Piece.Player != rook.Player)
-                   {
-                       moves.Add(new Utils.Vec2(i, rook.Position.Y));
-                   }
-                   break;
-
-               }
-           }
-
-           for (int i = rook.Position.Y - 1; i >= 0; --i)
-           {
-               if (board.Tiles[rook.Position.X, i].Piece == null)
-               {
-                   moves.Add(new Utils.Vec2(rook.Position.X, i));
-               }
-
-               else
-               {
-                   if (board.Tiles[rook.Position.X, i].Piece.Player != rook.Player)
-                   {
-                       moves.Add(new Utils.Vec2(rook.Position.X, i));
-                   }
-                   break;
-               }
-           }
-
-           for (int i = rook.Position.Y + 1; i < board.Rows; ++i)
-           {
-               if (board.Tiles[rook.Position.X, i].Piece == null)
-               {
-                   moves.Add(new Utils.Vec2(rook.Position.X, i));
-               }
-
-               else
-               {
-                   if (board.Tiles[rook.Position.X, i].Piece.Player != rook.Player)
-                   {
-                       moves.Add(new Utils.Vec2(rook.Position.X, i));
-                   }
-
-                   break;
-               }
-           }*/
 
            return moves;
        }
@@ -346,18 +259,7 @@ namespace Chess.Model
                moves.Remove(point);
            }
 
-           /*for (int i = 0; i < 4; ++i )
-           {
-               Utils.Vec2 dest = pawn.Position + movement_vectors.ElementAt(i);
-
-               if (!board.OutOfBounds(dest))
-               {
-                   if (board.Tiles[dest.X, dest.Y].Piece == null)
-                       moves.Add(dest);
-                   else if (board.Tiles[dest.X, dest.Y].Piece != null && pawn.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
-                       moves.Add(dest);
-               }
-           }*/
+           
 
            return moves;
        }
@@ -372,11 +274,10 @@ namespace Chess.Model
 
                if (!board.OutOfBounds(dest))
                {
-                   //bool reachable = board.ReachableFrom(dest,king.Player);
 
-                   if (board.Tiles[dest.X, dest.Y].Piece == null /*&& reachable == false*/)
+                   if (board.Tiles[dest.X, dest.Y].Piece == null )
                        moves.Add(dest);
-                   else if (board.Tiles[dest.X, dest.Y].Piece != null && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player /*&& reachable == false*/)
+                   else if (board.Tiles[dest.X, dest.Y].Piece != null && king.Player != board.Tiles[dest.X, dest.Y].Piece.Player)
                        moves.Add(dest);
                }
            }
